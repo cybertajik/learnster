@@ -12,6 +12,7 @@ import {
   loadUserProgress,
   recordAnswerAttempt,
   loadUserSettings,
+  saveUserSettings,
   getCachedImages,
   setCachedImage,
 } from '@/lib/storage';
@@ -47,8 +48,11 @@ export default function LearnPage() {
     setAuthChecked(true);
   }, []);
 
-  // Initialize dataset & question queue
+  // Initialize dataset & question queue for the current logged-in user
   useEffect(() => {
+    if (!authChecked) return;
+
+    const username = currentUser?.username;
     const cachedMap = getCachedImages();
     const mergedWords = (rawWords as Word[]).map((w) => {
       if (cachedMap[w.id]) {
@@ -58,8 +62,8 @@ export default function LearnPage() {
     });
 
     setAllWords(mergedWords);
-    const loadedProg = loadUserProgress();
-    const loadedSet = loadUserSettings();
+    const loadedProg = loadUserProgress(username);
+    const loadedSet = loadUserSettings(username);
     setProgress(loadedProg);
     setSettings(loadedSet);
 
@@ -69,7 +73,7 @@ export default function LearnPage() {
     preloadUpcomingImages(initialQueue);
 
     setIsLoading(false);
-  }, []);
+  }, [authChecked, currentUser]);
 
   // Question idle timer (triggers confused/bored/sleepy mascot after 10s/20s/30s)
   useEffect(() => {
@@ -126,6 +130,7 @@ export default function LearnPage() {
   // Handle settings change from QuizToolbar or Navbar
   const handleSettingsChange = (newSettings: UserSettings) => {
     setSettings(newSettings);
+    saveUserSettings(newSettings, currentUser?.username);
     // Regenerate queue with new filter settings
     const newQueue = getNextQuestions(allWords, 15, progress, newSettings);
     setQueue(newQueue);
@@ -138,7 +143,7 @@ export default function LearnPage() {
       const currentQ = queue[currentIndex];
       if (!currentQ) return;
 
-      const updatedProgress = recordAnswerAttempt(currentQ.word.id, isCorrect, progress);
+      const updatedProgress = recordAnswerAttempt(currentQ.word.id, isCorrect, progress, currentUser?.username);
       setProgress(updatedProgress);
       setLastAnswerCorrect(isCorrect);
 
@@ -150,7 +155,7 @@ export default function LearnPage() {
         setConsecutiveIncorrect((prev) => prev + 1);
       }
     },
-    [currentIndex, queue, progress]
+    [currentIndex, queue, progress, currentUser?.username]
   );
 
   const handleNext = useCallback(() => {

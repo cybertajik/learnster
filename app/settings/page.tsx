@@ -17,10 +17,13 @@ export default function SettingsPage() {
   const [savedNotice, setSavedNotice] = useState(false);
 
   useEffect(() => {
-    setCurrentUser(getCurrentUser());
+    const user = getCurrentUser();
+    setCurrentUser(user);
     setAuthChecked(true);
-    setSettings(loadUserSettings());
-    setProgress(loadUserProgress());
+    if (user) {
+      setSettings(loadUserSettings(user.username));
+      setProgress(loadUserProgress(user.username));
+    }
   }, []);
 
   if (!authChecked) return null;
@@ -29,7 +32,7 @@ export default function SettingsPage() {
   const handleThemeChange = (theme: 'dark' | 'light') => {
     const updated = { ...settings, theme };
     setSettings(updated);
-    saveUserSettings(updated);
+    saveUserSettings(updated, currentUser?.username);
 
     if (typeof document !== 'undefined') {
       const root = document.documentElement;
@@ -48,28 +51,28 @@ export default function SettingsPage() {
   const handleLevelChange = (level: 'ALL' | Level) => {
     const updated = { ...settings, levelFilter: level };
     setSettings(updated);
-    saveUserSettings(updated);
+    saveUserSettings(updated, currentUser?.username);
     showNotice();
   };
 
   const handleToggleImages = () => {
     const updated = { ...settings, imagesEnabled: !settings.imagesEnabled };
     setSettings(updated);
-    saveUserSettings(updated);
+    saveUserSettings(updated, currentUser?.username);
     showNotice();
   };
 
   const handleToggleSound = () => {
     const updated = { ...settings, soundEnabled: !settings.soundEnabled };
     setSettings(updated);
-    saveUserSettings(updated);
+    saveUserSettings(updated, currentUser?.username);
     showNotice();
   };
 
   const handleToggleSpeech = () => {
     const updated = { ...settings, speechEnabled: !settings.speechEnabled };
     setSettings(updated);
-    saveUserSettings(updated);
+    saveUserSettings(updated, currentUser?.username);
     showNotice();
   };
 
@@ -80,7 +83,7 @@ export default function SettingsPage() {
 
   const handleResetData = () => {
     if (confirm('Are you sure you want to reset all progress data?')) {
-      const resetP = resetProgress();
+      const resetP = resetProgress(currentUser?.username);
       setProgress(resetP);
       showNotice();
     }

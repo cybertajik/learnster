@@ -2,10 +2,6 @@ import { UserProgress, UserSettings, ImageMetadata } from '@/types/vocabulary';
 import { supabase } from './supabase';
 import { getCurrentUser } from './auth';
 
-const PROGRESS_STORAGE_KEY = 'lernster_user_progress_v1';
-const SETTINGS_STORAGE_KEY = 'lernster_user_settings_v1';
-const IMAGE_CACHE_KEY = 'lernster_image_cache_v1';
-
 export const DEFAULT_PROGRESS: UserProgress = {
   totalQuestions: 0,
   correct: 0,
@@ -23,14 +19,29 @@ export const DEFAULT_SETTINGS: UserSettings = {
   theme: 'dark',
 };
 
+function getProgressStorageKey(username?: string): string {
+  const user = username || getCurrentUser()?.username;
+  if (!user) return 'lernster_progress_guest_v1';
+  return `lernster_progress_${user.trim().toLowerCase()}_v1`;
+}
+
+function getSettingsStorageKey(username?: string): string {
+  const user = username || getCurrentUser()?.username;
+  if (!user) return 'lernster_settings_guest_v1';
+  return `lernster_settings_${user.trim().toLowerCase()}_v1`;
+}
+
+const IMAGE_CACHE_KEY = 'lernster_image_cache_v1';
+
 /**
- * Load user progress from localStorage safely
+ * Load user progress for a specific user safely from localStorage
  */
-export function loadUserProgress(): UserProgress {
+export function loadUserProgress(username?: string): UserProgress {
   if (typeof window === 'undefined') return DEFAULT_PROGRESS;
 
   try {
-    const raw = localStorage.getItem(PROGRESS_STORAGE_KEY);
+    const key = getProgressStorageKey(username);
+    const raw = localStorage.getItem(key);
     if (!raw) return DEFAULT_PROGRESS;
     const parsed = JSON.parse(raw);
     return { ...DEFAULT_PROGRESS, ...parsed };
@@ -41,13 +52,14 @@ export function loadUserProgress(): UserProgress {
 }
 
 /**
- * Save user progress to localStorage and sync to Supabase if logged in
+ * Save user progress to isolated per-user localStorage key and sync to Supabase
  */
-export function saveUserProgress(progress: UserProgress): void {
+export function saveUserProgress(progress: UserProgress, username?: string): void {
   if (typeof window === 'undefined') return;
 
   try {
-    localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(progress));
+    const key = getProgressStorageKey(username);
+    localStorage.setItem(key, JSON.stringify(progress));
     
     // Background async sync to Supabase
     const currentUser = getCurrentUser();
@@ -73,12 +85,13 @@ export function saveUserProgress(progress: UserProgress): void {
 }
 
 /**
- * Record a question attempt in progress state
+ * Record a question attempt in progress state for the current active user
  */
 export function recordAnswerAttempt(
   wordId: number,
   isCorrect: boolean,
-  currentProgress: UserProgress
+  currentProgress: UserProgress,
+  username?: string
 ): UserProgress {
   const now = new Date().toISOString();
   const existingWordStat = currentProgress.words[wordId] || {
@@ -108,18 +121,19 @@ export function recordAnswerAttempt(
     },
   };
 
-  saveUserProgress(updatedProgress);
+  saveUserProgress(updatedProgress, username);
   return updatedProgress;
 }
 
 /**
- * Load user settings from localStorage
+ * Load user settings for a specific user from localStorage
  */
-export function loadUserSettings(): UserSettings {
+export function loadUserSettings(username?: string): UserSettings {
   if (typeof window === 'undefined') return DEFAULT_SETTINGS;
 
   try {
-    const raw = localStorage.getItem(SETTINGS_STORAGE_KEY);
+    const key = getSettingsStorageKey(username);
+    const raw = localStorage.getItem(key);
     if (!raw) return DEFAULT_SETTINGS;
     const parsed = JSON.parse(raw);
     return { ...DEFAULT_SETTINGS, ...parsed };
@@ -130,13 +144,14 @@ export function loadUserSettings(): UserSettings {
 }
 
 /**
- * Save user settings to localStorage
+ * Save user settings to isolated per-user localStorage key
  */
-export function saveUserSettings(settings: UserSettings): void {
+export function saveUserSettings(settings: UserSettings, username?: string): void {
   if (typeof window === 'undefined') return;
 
   try {
-    localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
+    const key = getSettingsStorageKey(username);
+    localStorage.setItem(key, JSON.stringify(settings));
   } catch (e) {
     console.error('Error saving user settings to localStorage:', e);
   }
@@ -174,9 +189,9 @@ export function setCachedImage(wordId: number, image: ImageMetadata): void {
 }
 
 /**
- * Reset all progress statistics
+ * Reset progress statistics for a specific user
  */
-export function resetProgress(): UserProgress {
-  saveUserProgress(DEFAULT_PROGRESS);
+export function resetProgress(username?: string): UserProgress {
+  saveUserProgress(DEFAULT_PROGRESS, username);
   return DEFAULT_PROGRESS;
 }

@@ -27,10 +27,13 @@ export default function ProgressPage() {
   const [settings, setSettings] = useState<UserSettings>(loadUserSettings());
 
   useEffect(() => {
-    setCurrentUser(getCurrentUser());
+    const user = getCurrentUser();
+    setCurrentUser(user);
     setAuthChecked(true);
-    setProgress(loadUserProgress());
-    setSettings(loadUserSettings());
+    if (user) {
+      setProgress(loadUserProgress(user.username));
+      setSettings(loadUserSettings(user.username));
+    }
   }, []);
 
   if (!authChecked) return null;
@@ -55,7 +58,7 @@ export default function ProgressPage() {
 
   const handleReset = () => {
     if (confirm('Are you sure you want to reset all your progress data? This cannot be undone.')) {
-      const fresh = resetProgress();
+      const fresh = resetProgress(currentUser?.username);
       setProgress(fresh);
     }
   };
