@@ -54,10 +54,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-white/90 dark:bg-slate-900/90 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
-      <div className="max-w-5xl mx-auto px-3 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-1.5 sm:gap-2">
+      <div className="max-w-5xl mx-auto px-2 sm:px-6 h-14 sm:h-20 flex items-center justify-between gap-1 sm:gap-2">
         {/* Merged Single Top Bar: Bigger Mascot Logo */}
-        <Link href="/" className="flex items-center gap-2 shrink-0 group" title="Lernster">
-          <div className="relative w-10 h-10 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 sm:border-3 border-amber-400 shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform bg-amber-100 shrink-0">
+        <Link href="/" className="flex items-center gap-1.5 shrink-0 group" title="Lernster">
+          <div className="relative w-9 h-9 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 sm:border-3 border-amber-400 shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform bg-amber-100 shrink-0">
             <img
               src={mascotSrc}
               alt="Mascot Logo"
@@ -75,7 +75,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </Link>
 
         {/* Navigation Items in ONE Merged Top Bar: Learn | Progress | Settings */}
-        <nav className="flex items-center gap-0.5 sm:gap-2 bg-slate-100 dark:bg-slate-800/60 p-1 rounded-full border border-slate-200 dark:border-slate-700/60 overflow-x-auto">
+        <nav className="flex items-center gap-0.5 sm:gap-2 bg-slate-100 dark:bg-slate-800/60 p-1 rounded-full border border-slate-200 dark:border-slate-700/60 min-w-0">
           {navLinks.map((link) => {
             const Icon = link.icon;
             const isActive = pathname === link.href;
@@ -83,14 +83,15 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex items-center gap-1.5 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-all whitespace-nowrap ${
+                title={link.label}
+                className={`flex items-center justify-center gap-1.5 px-2 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-all whitespace-nowrap ${
                   isActive
                     ? 'bg-gradient-to-r from-rose-500 to-red-600 text-white shadow-md shadow-rose-900/30'
                     : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-700/50'
                 }`}
               >
-                <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
-                <span>{link.label}</span>
+                <Icon className="w-4 h-4 sm:w-4 sm:h-4 shrink-0" />
+                <span className="hidden sm:inline">{link.label}</span>
               </Link>
             );
           })}
