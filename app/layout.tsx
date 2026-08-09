@@ -9,20 +9,22 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Spanishly - Modern Spanish Vocabulary Learning',
+  title: 'Lernster - Modern Spanish Vocabulary & Sentence Learning',
   description:
-    'Master Spanish vocabulary with smart visual flashcards, Pexels image search, progress tracking, and spaced repetition queue.',
+    'Master Spanish vocabulary and conversational sentences with Lernster - featuring smart spaced repetition, interactive mascot feedback, audio pronunciations, and visual flashcards.',
   keywords: [
     'Spanish',
     'Vocabulary',
     'Learn Spanish',
     'Flashcards',
-    'Pexels',
+    'Sentences',
     'A1',
     'A2',
-    'Spanishly',
+    'B1',
+    'B2',
+    'Lernster',
   ],
-  authors: [{ name: 'Spanishly Team' }],
+  authors: [{ name: 'Lernster Team' }],
 };
 
 export default function RootLayout({

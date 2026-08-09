@@ -52,7 +52,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     <header className="sticky top-0 z-50 backdrop-blur-md bg-white/90 dark:bg-slate-900/90 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
       <div className="max-w-5xl mx-auto px-3 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-2">
         {/* Merged Single Top Bar: Bigger Mascot Logo */}
-        <Link href="/" className="flex items-center gap-2 shrink-0 group" title="Spanishly">
+        <Link href="/" className="flex items-center gap-2 shrink-0 group" title="Lernster">
           <div className="relative w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 sm:border-3 border-amber-400 shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform bg-amber-100 shrink-0">
             <img
               src={mascotSrc}

@@ -73,7 +73,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onSuccess }) => {
         <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-amber-400 shadow-xl shadow-amber-500/20 mb-4 bg-amber-100 shrink-0 transform hover:scale-105 transition-transform">
           <img
             src="/logo.png"
-            alt="Spanishly Mascot Logo"
+            alt="Lernster Mascot Logo"
             className="w-full h-full object-cover"
           />
         </div>
@@ -82,7 +82,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onSuccess }) => {
         <div className="text-center mb-6">
           <div className="flex items-center justify-center gap-1.5 mb-1">
             <Sparkles className="w-5 h-5 text-amber-400" />
-            <h1 className="text-3xl font-extrabold tracking-tight text-white">Spanishly</h1>
+            <h1 className="text-3xl font-extrabold tracking-tight text-white">Lernster</h1>
           </div>
           <p className="text-slate-400 text-sm font-medium">
             {isSignup ? 'Create your account to start learning' : 'Welcome back! Log in to continue'}
