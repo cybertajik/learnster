@@ -1,0 +1,601 @@
+id,spanish,english,level,partOfSpeech,imageQuery
+1,gato,cat,A1,noun,cat
+2,perro,dog,A1,noun,dog
+3,casa,house,A1,noun,house
+4,correr,to run,A1,verb,person running
+5,cocinar,to cook,A1,verb,person cooking
+6,banco,bank,A1,noun,bank building
+7,avión,airplane,A1,noun,airplane
+8,agua,water,A1,noun,glass of water
+9,árbol,tree,A1,noun,green tree
+10,libro,book,A1,noun,open book
+11,mesa,table,A1,noun,wooden table
+12,comida,food,A1,noun,plate of food
+13,escuela,school,A1,noun,school building
+14,pero,but,A1,conjunction,NONE
+15,porque,because,A1,conjunction,NONE
+16,escribir,to write,A1,verb,person writing
+17,sol,sun,A1,noun,bright sun sky
+18,luna,moon,A1,noun,full moon
+19,playa,beach,A1,noun,tropical beach
+20,familia,family,A1,noun,happy family
+21,amigo,friend,A1,noun,friends smiling
+22,dormir,to sleep,A1,verb,person sleeping
+23,feliz,happy,A1,adjective,happy face
+24,música,music,A1,noun,headphones music
+25,comer,to eat,A1,verb,person eating
+26,beber,to drink,A1,verb,person drinking water
+27,manzana,apple,A1,noun,red apple
+28,leche,milk,A1,noun,glass of milk
+29,pan,bread,A1,noun,loaf of bread
+30,café,coffee,A1,noun,cup of coffee
+31,té,tea,A1,noun,cup of tea
+32,carne,meat,A1,noun,cooked steak
+33,pescado,fish,A1,noun,cooked fish
+34,fruta,fruit,A1,noun,fresh fruit basket
+35,verdura,vegetable,A1,noun,fresh vegetables
+36,queso,cheese,A1,noun,block of cheese
+37,huevo,egg,A1,noun,fried egg
+38,arroz,rice,A1,noun,bowl of rice
+39,sopa,soup,A1,noun,bowl of hot soup
+40,azúcar,sugar,A1,noun,bowl of sugar
+41,sal,salt,A1,noun,salt shaker
+42,puerta,door,A1,noun,wooden door
+43,ventana,window,A1,noun,open window
+44,silla,chair,A1,noun,wooden chair
+45,cama,bed,A1,noun,bedroom bed
+46,baño,bathroom,A1,noun,clean bathroom
+47,cocina,kitchen,A1,noun,modern kitchen
+48,jardín,garden,A1,noun,flower garden
+49,piso,apartment,A1,noun,apartment building
+50,calle,street,A1,noun,city street
+51,parque,park,A1,noun,green park
+52,tienda,store,A1,noun,retail store
+53,mercado,market,A1,noun,fruit market
+54,hospital,hospital,A1,noun,hospital building
+55,estación,station,A1,noun,train station
+56,hotel,hotel,A1,noun,hotel building
+57,restaurante,restaurant,A1,noun,dining restaurant
+58,coche,car,A1,noun,modern car
+59,autobús,bus,A1,noun,city bus
+60,tren,train,A1,noun,passenger train
+61,bicicleta,bicycle,A1,noun,bicycle
+62,taxista,taxi driver,A1,noun,taxi driver
+63,zapato,shoe,A1,noun,pair of shoes
+64,camisa,shirt,A1,noun,buttoned shirt
+65,pantalón,pants,A1,noun,blue jeans
+66,vestido,dress,A1,noun,elegant dress
+67,sombrero,hat,A1,noun,sun hat
+68,reloj,watch,A1,noun,wrist watch
+69,bolso,bag,A1,noun,handbag
+70,ojo,eye,A1,noun,human eye
+71,mano,hand,A1,noun,human hand
+72,cabeza,head,A1,noun,human head
+73,pie,foot,A1,noun,human foot
+74,boca,mouth,A1,noun,smiling mouth
+75,pelo,hair,A1,noun,human hair
+76,niño,boy,A1,noun,young boy
+77,niña,girl,A1,noun,young girl
+78,hombre,man,A1,noun,adult man
+79,mujer,woman,A1,noun,adult woman
+80,padre,father,A1,noun,father with child
+81,madre,mother,A1,noun,mother with child
+82,hermano,brother,A1,noun,two brothers
+83,hermana,sister,A1,noun,two sisters
+84,hijo,son,A1,noun,son smiling
+85,hija,daughter,A1,noun,daughter smiling
+86,abuelo,grandfather,A1,noun,old grandfather
+87,abuela,grandmother,A1,noun,old grandmother
+88,gordo,fat,A1,adjective,overweight person
+89,delgado,thin,A1,adjective,slim person
+90,grande,big,A1,adjective,giant building
+91,pequeño,small,A1,adjective,tiny object
+92,alto,tall,A1,adjective,tall skyscraper
+93,bajo,short,A1,adjective,short plant
+94,bueno,good,A1,adjective,thumbs up
+95,malo,bad,A1,adjective,thumbs down
+96,nuevo,new,A1,adjective,brand new car
+97,viejo,old,A1,adjective,vintage old car
+98,rojo,red,A1,adjective,red color
+99,azul,blue,A1,adjective,blue ocean
+100,verde,green,A1,adjective,green grass
+101,aunque,although,A2,conjunction,NONE
+102,sin embargo,however,A2,conjunction,NONE
+103,viajar,to travel,A2,verb,traveler with suitcase
+104,montaña,mountain,A2,noun,snowy mountain
+105,ciudad,city,A2,noun,city skyline
+106,rápido,fast,A2,adjective,fast sports car
+107,aeropuerto,airport,A2,noun,airport terminal
+108,maleta,suitcase,A2,noun,travel suitcase
+109,pasaporte,passport,A2,noun,passport book
+110,billete,ticket,A2,noun,travel ticket
+111,vuelo,flight,A2,noun,airplane flying
+112,equipaje,luggage,A2,noun,luggage bags
+113,mapa,map,A2,noun,world map
+114,camino,path,A2,noun,walking path forest
+115,pueblo,town,A2,noun,small village town
+116,bosque,forest,A2,noun,dense forest trees
+117,río,river,A2,noun,flowing river
+118,lago,lake,A2,noun,calm lake water
+119,isla,island,A2,noun,tropical island
+120,mar,sea,A2,noun,blue sea waves
+121,campo,countryside,A2,noun,green countryside field
+122,lluvia,rain,A2,noun,rain drops window
+123,nieve,snow,A2,noun,falling snow winter
+124,viento,wind,A2,noun,windy weather trees
+125,nube,cloud,A2,noun,white cloud sky
+126,fuego,fire,A2,noun,burning campfire
+127,tierra,earth,A2,noun,soil ground
+128,desierto,desert,A2,noun,desert sand dunes
+129,flor,flower,A2,noun,blooming flower
+130,hoja,leaf,A2,noun,green plant leaf
+131,pájaro,bird,A2,noun,flying bird
+132,caballo,horse,A2,noun,running horse
+133,vaca,cow,A2,noun,farm cow
+134,oveja,sheep,A2,noun,flock of sheep
+135,cerdo,pig,A2,noun,pink farm pig
+136,león,lion,A2,noun,male lion
+137,elefante,elephant,A2,noun,wild elephant
+138,mariposa,butterfly,A2,noun,butterfly flower
+139,pantalla,screen,A2,noun,computer monitor
+140,teclado,keyboard,A2,noun,computer keyboard
+141,ratón,computer mouse,A2,noun,computer mouse
+142,teléfono,phone,A2,noun,smartphone
+143,ordenador,computer,A2,noun,laptop computer
+144,cámara,camera,A2,noun,photo camera
+145,periódico,newspaper,A2,noun,printed newspaper
+146,carta,letter,A2,noun,envelope letter
+147,mensaje,message,A2,noun,text message phone
+148,trabajo,job,A2,noun,office worker laptop
+149,oficina,office,A2,noun,modern office desk
+150,jefe,boss,A2,noun,business manager
+151,reunión,meeting,A2,noun,business meeting table
+152,empresa,company,A2,noun,corporate office building
+153,dinero,money,A2,noun,cash money paper
+154,tarjeta,credit card,A2,noun,credit card
+155,precio,price,A2,noun,price tag
+156,compras,shopping,A2,noun,shopping bags
+157,regalo,gift,A2,noun,wrapped gift box
+158,llave,key,A2,noun,door key
+159,caja,box,A2,noun,cardboard box
+160,bolsillo,pocket,A2,noun,jeans pocket
+161,botella,bottle,A2,noun,glass bottle
+162,vaso,drinking glass,A2,noun,empty glass
+163,plato,plate,A2,noun,ceramic dinner plate
+164,cuchara,spoon,A2,noun,metal spoon
+165,tenedor,fork,A2,noun,metal fork
+166,cuchillo,knife,A2,noun,kitchen knife
+167,servilleta,napkin,A2,noun,table napkin
+168,desayuno,breakfast,A2,noun,morning breakfast table
+169,almuerzo,lunch,A2,noun,lunch meal plate
+170,cena,dinner,A2,noun,evening dinner table
+171,camarote,cabin,A2,noun,ship cabin bedroom
+172,médico,doctor,A2,noun,doctor with stethoscope
+173,enfermera,nurse,A2,noun,hospital nurse
+174,medicina,medicine,A2,noun,medicine pills
+175,dolor,pain,A2,noun,person headache pain
+176,enfermo,sick,A2,adjective,sick person bed
+177,sano,healthy,A2,adjective,healthy athletic person
+178,cuerpo,body,A2,noun,human body silhouette
+179,corazón,heart,A2,noun,human heart model
+180,sangre,blood,A2,noun,blood drop
+181,canción,song,A2,noun,singing microphone stage
+182,película,movie,A2,noun,cinema movie theater
+183,teatro,theater,A2,noun,theater stage curtains
+184,arte,art,A2,noun,oil painting canvas
+185,deporte,sport,A2,noun,sports equipment balls
+186,fútbol,soccer,A2,noun,soccer ball field
+187,baloncesto,basketball,A2,noun,basketball hoop
+188,natación,swimming,A2,noun,swimmer swimming pool
+189,carrera,race,A2,noun,runners track race
+190,ganador,winner,A2,noun,winner holding trophy
+191,tiempo,weather,A2,noun,sunny weather forecast
+192,hora,hour,A2,noun,clock showing time
+193,minuto,minute,A2,noun,stopwatch timer
+194,segundo,second,A2,noun,digital timer
+195,ayer,yesterday,A2,adverb,NONE
+196,hoy,today,A2,adverb,NONE
+197,mañana,tomorrow,A2,adverb,NONE
+198,siempre,always,A2,adverb,NONE
+199,nunca,never,A2,adverb,NONE
+200,quizás,maybe,A2,adverb,NONE
+201,desarrollo,development,B1,noun,technological development
+202,medio ambiente,environment,B1,noun,green environment nature
+203,investigación,research,B1,noun,scientist laboratory research
+204,tecnología,technology,B1,noun,modern technology circuit
+205,sociedad,society,B1,noun,diverse group of people
+206,educación,education,B1,noun,university graduation
+207,cultura,culture,B1,noun,cultural festival traditional
+208,gobierno,government,B1,noun,parliament building
+209,política,politics,B1,noun,political debate microphone
+210,economía,economy,B1,noun,stock market chart
+211,industria,industry,B1,noun,factory industrial building
+212,comercio,trade,B1,noun,cargo container ship
+213,mercancía,merchandise,B1,noun,warehouse goods boxes
+214,negocio,business,B1,noun,business handshake
+215,inversión,investment,B1,noun,growing money plant
+216,presupuesto,budget,B1,noun,budget planning calculator
+217,impuesto,tax,B1,noun,tax form coins
+218,salario,salary,B1,noun,paycheck cash
+219,empleo,employment,B1,noun,job interview shaking hands
+220,desempleo,unemployment,B1,noun,unemployed person thinking
+221,contrato,contract,B1,noun,signing business contract
+222,proyecto,project,B1,noun,architect blueprint project
+223,objetivo,objective,B1,noun,target archery bullseye
+224,estrategia,strategy,B1,noun,chess strategy game
+225,solución,solution,B1,noun,puzzle piece fitting
+226,problema,problem,B1,noun,confused person puzzle
+227,resultado,result,B1,noun,successful chart growth
+228,éxito,success,B1,noun,person celebrating success
+229,fracaso,failure,B1,noun,disappointed person desk
+230,oportunidad,opportunity,B1,noun,open door sunrise
+231,riesgo,risk,B1,noun,warning sign hazard
+232,seguridad,security,B1,noun,padlock security shield
+233,peligro,danger,B1,noun,danger caution symbol
+234,saludable,healthy,B1,adjective,fresh salad fruit
+235,enfermedad,disease,B1,noun,virus microscope science
+236,tratamiento,treatment,B1,noun,medical therapy doctor
+237,paciente,patient,B1,noun,hospital patient bed
+238,síntoma,symptom,B1,noun,thermometer fever check
+239,vacuna,vaccine,B1,noun,syringe vaccine bottle
+240,farmacia,pharmacy,B1,noun,pharmacy store counter
+241,opinión,opinion,B1,noun,NONE
+242,consejo,advice,B1,noun,two people talking advice
+243,experiencia,experience,B1,noun,experience star rating
+244,conocimiento,knowledge,B1,noun,brain lightbulb idea
+245,habilidad,ability,B1,noun,juggling skilled performance
+246,esfuerzo,effort,B1,noun,mountain climber climbing
+247,memoria,memory,B1,noun,brain memory thoughts
+248,pensamiento,thought,B1,noun,person thinking deeply
+249,sentimiento,feeling,B1,noun,heart in hands
+250,emoción,emotion,B1,noun,joyful expressive face
+251,esperanza,hope,B1,noun,holding glowing light
+252,miedo,fear,B1,noun,spooky shadow fear
+253,tristeza,sadness,B1,noun,sad person raining window
+254,alegría,joy,B1,noun,happy jumping friends
+255,rabia,anger,B1,noun,angry frustrated face
+256,sorpresa,surprise,B1,noun,surprised open mouth
+257,vergüenza,shame,B1,noun,person covering face
+258,orgullo,pride,B1,noun,proud person medal
+259,respeto,respect,B1,noun,respectful handshake
+260,confianza,trust,B1,noun,trusting team trust
+261,amistad,friendship,B1,noun,best friends hugging
+262,relación,relationship,B1,noun,couple walking together
+263,matrimonio,marriage,B1,noun,wedding rings couple
+264,divorcio,divorce,B1,noun,broken wedding ring
+265,vecino,neighbor,B1,noun,neighbors over fence
+266,comunidad,community,B1,noun,community gathering park
+267,ciudadano,citizen,B1,noun,person voting ballot box
+268,ley,law,B1,noun,scales of justice
+269,justicia,justice,B1,noun,gavel judge court
+270,derecho,right,B1,noun,NONE
+271,delito,crime,B1,noun,handcuffs police
+272,policía,police,B1,noun,police car officer
+273,cárcel,prison,B1,noun,prison cell bars
+274,juez,judge,B1,noun,courtroom judge
+275,abogado,lawyer,B1,noun,attorney lawyer suit
+276,testigo,witness,B1,noun,courtroom witness stand
+277,prueba,proof,B1,noun,magnifying glass evidence
+278,verdad,truth,B1,noun,NONE
+279,mentira,lie,B1,noun,wooden pinocchio nose
+280,acuerdo,agreement,B1,noun,handshake deal
+281,discusión,argument,B1,noun,two people arguing
+282,conflicto,conflict,B1,noun,clashing swords conflict
+283,paz,peace,B1,noun,white dove peace
+284,guerra,war,B1,noun,desert military tanks
+285,ejército,army,B1,noun,military soldiers marching
+286,bandera,flag,B1,noun,national flag flying
+287,frontera,border,B1,noun,border checkpoint crossing
+288,extranjero,foreigner,B1,noun,traveler looking map
+289,idioma,language,B1,noun,speech bubbles world languages
+290,traducción,translation,B1,noun,translation dictionary book
+291,comunicación,communication,B1,noun,video conference call
+292,redes sociales,social media,B1,noun,social media icons phone
+293,anuncio,advertisement,B1,noun,city billboard ad
+294,noticia,news,B1,noun,newspaper headlines
+295,radio,radio,B1,noun,vintage radio speaker
+296,televisión,television,B1,noun,modern smart television
+297,cine,cinema,B1,noun,popcorn movie theater
+298,literatura,literature,B1,noun,classic antique book library
+299,poesía,poetry,B1,noun,fountain pen poetry manuscript
+300,historia,history,B1,noun,ancient roman ruins
+301,arquitectura,architecture,B2,noun,modern architecture skyscraper
+302,filosofía,philosophy,B2,noun,thinker statue philosophy
+303,psicología,psychology,B2,noun,brain puzzle psychology
+304,sociología,sociology,B2,noun,connected people network
+305,astronomía,astronomy,B2,noun,stargazing telescope galaxy
+306,biología,biology,B2,noun,dna helix biology
+307,química,chemistry,B2,noun,chemistry lab flasks
+308,física,physics,B2,noun,atom physics orbit
+309,matemáticas,mathematics,B2,noun,math formulas blackboard
+310,geometría,geometry,B2,noun,geometric compass shapes
+311,estadística,statistics,B2,noun,statistical data graph
+312,algoritmo,algorithm,B2,noun,computer code algorithm
+313,inteligencia artificial,artificial intelligence,B2,noun,ai robot brain glowing
+314,robótica,robotics,B2,noun,robotic arm factory
+315,ciberseguridad,cybersecurity,B2,noun,digital padlock cyber security
+316,energía renovable,renewable energy,B2,noun,wind turbines solar panels
+317,sostenibilidad,sustainability,B2,noun,green sprout earth care
+318,cambio climático,climate change,B2,noun,melting glacier iceberg
+319,contaminación,pollution,B2,noun,smokestack factory smoke
+320,reciclaje,recycling,B2,noun,green recycling symbol
+321,biodiversidad,biodiversity,B2,noun,coral reef wildlife
+322,especie,species,B2,noun,wild tiger jungle
+323,extinción,extinction,B2,noun,dinosaur fossil museum
+324,conservación,conservation,B2,noun,forest ranger tree planting
+325,recursos naturales,natural resources,B2,noun,water waterfall forest
+326,petróleo,petroleum,B2,noun,oil rig ocean
+327,gas natural,natural gas,B2,noun,gas burner flame
+328,electricidad,electricity,B2,noun,lightning electric spark
+329,infraestructura,infrastructure,B2,noun,bridge construction highway
+330,transporte público,public transport,B2,noun,subway metro train
+331,urbanismo,urban planning,B2,noun,futuristic city model
+332,vivienda,housing,B2,noun,suburban neighborhood houses
+333,hipoteca,mortgage,B2,noun,miniature house key contract
+334,alquiler,rent,B2,noun,handing house key lease
+335,patrimonio,heritage,B2,noun,historic castle heritage
+336,turismo,tourism,B2,noun,tourists taking photos monument
+337,gastronomía,gastronomy,B2,noun,gourmet restaurant chef plate
+338,nutrición,nutrition,B2,noun,healthy balanced meal
+339,caloría,calorie,B2,noun,fitness food count
+340,metaverso,metaverse,B2,noun,vr headset virtual reality
+341,vacaciones,vacation,B2,noun,resort swimming pool palm trees
+342,hospedaje,lodging,B2,noun,boutique hotel reception
+343,reserva,reservation,B2,noun,hotel reservation smartphone
+344,cancelación,cancellation,B2,noun,red cancelled stamp document
+345,reembolso,refund,B2,noun,returning cash money
+346,garantía,warranty,B2,noun,warranty certificate stamp
+347,factura,invoice,B2,noun,business invoice paper
+348,recibo,receipt,B2,noun,paper store receipt
+349,descuento,discount,B2,noun,percentage discount tag
+350,oferta,offer,B2,noun,special offer sale sign
+351,competencia,competition,B2,noun,athletes racing finish line
+352,liderazgo,leadership,B2,noun,leader guiding team
+353,negociación,negotiation,B2,noun,corporate business meeting table
+354,colaboración,collaboration,B2,noun,team working together laptop
+355,innovación,innovation,B2,noun,glowing lightbulb creative idea
+356,emprendedor,entrepreneur,B2,noun,young entrepreneur presentation
+357,startup,startup,B2,noun,rocket launch startup concept
+358,financiación,financing,B2,noun,funding coins piggy bank
+359,capitalismo,capitalism,B2,noun,stock exchange floor traders
+360,globalización,globalization,B2,noun,digital globe connection
+361,democracia,democracy,B2,noun,voting ballot box citizen
+362,libertad de expresión,freedom of speech,B2,noun,NONE
+363,derechos humanos,human rights,B2,noun,diverse unity hands holding
+364,igualdad,equality,B2,noun,balanced equality scale
+365,diversidad,diversity,B2,noun,multicultural group smiling
+366,inclusión,inclusion,B2,noun,inclusive team circle
+367,solidaridad,solidarity,B2,noun,helping hands support
+368,voluntariado,volunteering,B2,noun,volunteers planting trees
+369,donación,donation,B2,noun,charity donation box
+370,asociación,association,B2,noun,nonprofit team meeting
+371,fundación,foundation,B2,noun,charity foundation building
+372,manifestación,demonstration,B2,noun,peaceful march protest
+373,huelga,strike,B2,noun,workers strike rally
+374,sindicato,labor union,B2,noun,union rally workers
+375,reforma,reform,B2,noun,architect renovating room
+376,constitución,constitution,B2,noun,historic legal constitution book
+377,parlamento,parliament,B2,noun,parliament chamber debate
+378,senado,senate,B2,noun,senate hall seats
+379,diplomacia,diplomacy,B2,noun,diplomats shaking hands
+380,embajada,embassy,B2,noun,embassy building flags
+381,tratado,treaty,B2,noun,signing international treaty
+382,alianza,alliance,B2,noun,shaking hands global agreement
+383,soberanía,sovereignty,B2,noun,crown national seal
+384,independencia,independence,B2,noun,fireworks celebration freedom
+385,revolución,revolution,B2,noun,historic monuments crowd
+386,patriotismo,patriotism,B2,noun,saluting national flag
+387,identidad,identity,B2,noun,fingerprint biometrics identity
+388,personalidad,personality,B2,noun,diverse human faces masks
+389,comportamiento,behavior,B2,noun,NONE
+390,actitud,attitude,B2,noun,positive confident posture
+391,motivación,motivation,B2,noun,athlete crossing finish line
+392,inspiración,inspiration,B2,noun,artist painting outdoor landscape
+393,creatividad,creativity,B2,noun,colorful paint splatters art
+394,imaginación,imagination,B2,noun,child wearing superhero cape
+395,curiosidad,curiosity,B2,noun,child looking through magnifying glass
+396,sabiduría,wisdom,B2,noun,wise old owl book
+397,inteligencia,intelligence,B2,noun,glowing brain synapse
+398,conciencia,awareness,B2,noun,mindful meditation sunrise
+399,espiritualidad,spirituality,B2,noun,zen stone balancing water
+400,filosofía de vida,philosophy of life,B2,noun,NONE
+401,abrir,to open,A1,verb,hand opening door
+402,cerrar,to close,A1,verb,hand closing door
+403,mirar,to look at,A1,verb,person looking through binoculars
+404,escuchar,to listen,A1,verb,person listening with headphones
+405,hablar,to speak,A1,verb,two people talking
+406,caminar,to walk,A1,verb,person walking park
+407,comprar,to buy,A1,verb,person buying groceries
+408,vender,to sell,A1,verb,merchant selling market
+409,pagar,to pay,A1,verb,hand paying money cash
+410,buscar,to search,A1,verb,person searching with magnifying glass
+411,encontrar,to find,A1,verb,finding hidden treasure box
+412,preguntar,to ask,A1,verb,student raising hand question
+413,responder,to answer,A1,verb,person answering telephone
+414,entrar,to enter,A1,verb,person entering door
+415,salir,to exit,A1,verb,person exiting building door
+416,llegar,to arrive,A1,verb,airplane arriving airport
+417,llevar,to carry,A1,verb,person carrying heavy box
+418,traer,to bring,A1,verb,waiter bringing food plate
+419,tomar,to take,A1,verb,hand taking glass of water
+420,dar,to give,A1,verb,giving gift box
+421,amar,to love,A1,verb,holding red heart
+422,gustar,to like,A1,verb,thumbs up like
+423,querer,to want,A1,verb,child wanting ice cream
+424,necesitar,to need,A1,verb,thirsty person needing water
+425,saber,to know,A1,verb,brain lightbulb knowing
+426,conocer,to meet,A1,verb,two people shaking hands
+427,pensar,to think,A1,verb,person thinking idea
+428,creer,to believe,A1,verb,person praying belief
+429,esperar,to wait,A1,verb,person waiting at bus stop
+430,recordar,to remember,A1,verb,remembering memory thought
+431,olvidar,to forget,A1,verb,forgetful person scratching head
+432,aprender,to learn,A1,verb,student studying books
+433,enseñar,to teach,A1,verb,teacher teaching blackboard
+434,estudiar,to study,A1,verb,student studying desk
+435,trabajar,to work,A1,verb,office worker laptop
+436,jugar,to play,A1,verb,children playing park
+437,cantar,to sing,A1,verb,singer singing microphone
+438,bailar,to dance,A1,verb,couple dancing tango
+439,nadar,to swim,A1,verb,person swimming pool
+440,reír,to laugh,A1,verb,person laughing happily
+441,llorar,to cry,A1,verb,person crying tear drops
+442,sonreír,to smile,A1,verb,happy smiling face
+443,ayudar,to help,A1,verb,helping person up
+444,limpiar,to clean,A1,verb,person cleaning window
+445,lavar,to wash,A1,verb,washing hands soap water
+446,cortar,to cut,A1,verb,scissors cutting paper
+447,romper,to break,A1,verb,broken glass plate
+448,arreglar,to fix,A1,verb,mechanic fixing car engine
+449,organizar,to organize,A1,verb,organizing desk folders
+450,preparar,to prepare,A1,verb,chef preparing food
+451,plato,dish,A1,noun,ceramic food dish
+452,taza,mug,A1,noun,coffee mug cup
+453,vaso,glass,A1,noun,clear drinking glass
+454,cuchillo,kitchen knife,A1,noun,sharp kitchen knife
+455,tenedor,eating fork,A1,noun,metal eating fork
+456,cuchara,soup spoon,A1,noun,metal soup spoon
+457,servilleta,paper napkin,A1,noun,white paper napkin
+458,mantel,tablecloth,A1,noun,dining tablecloth
+459,cocina,stove,A1,noun,kitchen gas stove
+460,horno,oven,A1,noun,kitchen baking oven
+461,nevera,refrigerator,A1,noun,kitchen refrigerator fridge
+462,microondas,microwave,A1,noun,kitchen microwave oven
+463,sartén,frying pan,A1,noun,black frying pan
+464,olla,cooking pot,A1,noun,metal cooking pot
+465,almuerzo,lunch meal,A1,noun,sandwich lunch plate
+466,cena,dinner meal,A1,noun,family dinner table
+467,desayuno,breakfast meal,A1,noun,pancakes breakfast coffee
+468,merienda,afternoon snack,A1,noun,fruit snack plate
+469,postre,dessert,A1,noun,chocolate cake dessert
+470,helado,ice cream,A1,noun,delicious ice cream cone
+471,pastel,cake,A1,noun,birthday cake candles
+472,galleta,cookie,A1,noun,chocolate chip cookie
+473,chocolate,chocolate,A1,noun,dark chocolate bar
+474,caramelo,candy,A1,noun,sweet colorful candy
+475,mermelada,jam,A1,noun,strawberry jam jar
+476,mantequilla,butter,A1,noun,stick of yellow butter
+477,aceite,cooking oil,A1,noun,bottle of olive oil
+478,vinagre,vinegar,A1,noun,bottle of vinegar
+479,pimienta,black pepper,A1,noun,black pepper shaker
+480,ajo,garlic,A1,noun,garlic bulb
+481,cebolla,onion,A1,noun,fresh yellow onion
+482,tomate,tomato,A1,noun,ripe red tomato
+483,patata,potato,A1,noun,fresh raw potatoes
+484,zanahoria,carrot,A1,noun,fresh orange carrots
+485,lechuga,lettuce,A1,noun,fresh green lettuce
+486,pepino,cucumber,A1,noun,fresh green cucumber
+487,maíz,corn,A1,noun,yellow corn cob
+488,fresa,strawberry,A1,noun,fresh red strawberry
+489,plátano,banana,A1,noun,yellow banana bunch
+490,naranja,orange,A1,noun,fresh ripe orange
+491,limón,lemon,A1,noun,yellow lemon fruit
+492,uva,grape,A1,noun,bunch of purple grapes
+493,manzana verde,green apple,A1,noun,fresh green apple
+494,sandía,watermelon,A1,noun,slice of fresh watermelon
+495,melón,melon,A1,noun,fresh sweet melon
+496,piña,pineapple,A1,noun,fresh tropical pineapple
+497,melocotón,peach,A1,noun,fresh ripe peach
+498,cereza,cherry,A1,noun,red sweet cherries
+499,pera,pear,A1,noun,fresh green pear
+500,coco,coconut,A1,noun,tropical coconut palm
+501,ropa,clothing,A1,noun,clothing rack shirts
+502,abrigo,coat,A1,noun,warm winter coat
+503,chaqueta,jacket,A1,noun,leather jacket
+504,jersey,sweater,A1,noun,knit winter sweater
+505,falda,skirt,A1,noun,women skirt
+506,calcetín,sock,A1,noun,pair of socks
+507,bota,boot,A1,noun,leather winter boots
+508,zapatilla,sneaker,A1,noun,running sneakers shoes
+509,guante,glove,A1,noun,winter gloves
+510,bufanda,scarf,A1,noun,warm winter scarf
+511,gora,cap,A1,noun,baseball cap hat
+512,cinturón,belt,A1,noun,leather waist belt
+513,corbata,tie,A1,noun,men necktie suit
+514,pijama,pajamas,A1,noun,comfortable pajamas
+515,traje,suit,A1,noun,business suit tie
+516,traje de baño,swimsuit,A1,noun,beach swimsuit
+517,gafas,glasses,A1,noun,eyeglasses frame
+518,gafas de sol,sunglasses,A1,noun,stylish sunglasses
+519,anillo,ring,A1,noun,gold jewelry ring
+520,collar,necklace,A1,noun,silver necklace jewelry
+521,pendiente,earring,A1,noun,gold hoop earrings
+522,reloj de pared,wall clock,A1,noun,analog wall clock
+523,llave de agua,faucet,A1,noun,water bathroom faucet
+524,espejo,mirror,A1,noun,wall bathroom mirror
+525,toalla,towel,A1,noun,folded bath towel
+526,jabón,soap,A1,noun,bar of hand soap
+527,champú,shampoo,A1,noun,bottle of hair shampoo
+528,cepillo,brush,A1,noun,hair brush
+529,cepillo de dientes,toothbrush,A1,noun,dental toothbrush
+530,pasta de dientes,toothpaste,A1,noun,tube of toothpaste
+531,peine,comb,A1,noun,plastic hair comb
+532,almohada,pillow,A1,noun,soft bed pillow
+533,sábana,bedsheet,A1,noun,clean white bedsheet
+534,manta,blanket,A1,noun,cozy warm blanket
+535,sofá,sofa,A1,noun,comfortable living room sofa
+536,sillón,armchair,A1,noun,comfy leather armchair
+537,lámpara,lamp,A1,noun,table reading lamp
+538,estante,bookshelf,A1,noun,wooden bookshelf books
+539,cuadro,painting,A1,noun,framed wall painting
+540,alfombra,carpet,A1,noun,living room area rug
+541,cortina,curtain,A1,noun,window drapes curtain
+542,techo,ceiling,A1,noun,room ceiling light
+543,pared,wall,A1,noun,brick room wall
+544,suelo,floor,A1,noun,wooden floor tiles
+545,escalera,stairs,A1,noun,wooden indoor staircase
+546,ascensor,elevator,A1,noun,modern glass elevator
+547,pasillo,hallway,A1,noun,bright house hallway
+548,garaje,garage,A1,noun,car garage house
+549,balcón,balcony,A1,noun,apartment balcony view
+550,terraza,terrace,A1,noun,outdoor patio terrace
+551,primavera,spring season,A1,noun,spring flowers blooming
+552,verano,summer season,A1,noun,sunny beach summer
+553,otoño,autumn season,A1,noun,autumn golden leaves forest
+554,invierno,winter season,A1,noun,snowy winter trees
+555,enero,january,A1,noun,calendar january
+556,febrero,february,A1,noun,calendar february
+557,marzo,march,A1,noun,calendar march
+558,abril,april,A1,noun,calendar april
+559,mayo,may,A1,noun,calendar may
+560,junio,june,A1,noun,calendar june
+561,julio,july,A1,noun,calendar july
+562,agosto,august,A1,noun,calendar august
+563,septiembre,september,A1,noun,calendar september
+564,octubre,october,A1,noun,calendar october
+565,noviembre,november,A1,noun,calendar november
+566,diciembre,december,A1,noun,calendar december
+567,lunes,monday,A1,noun,NONE
+568,martes,tuesday,A1,noun,NONE
+569,miércoles,wednesday,A1,noun,NONE
+570,jueves,thursday,A1,noun,NONE
+571,viernes,friday,A1,noun,NONE
+572,sábado,saturday,A1,noun,NONE
+573,domingo,sunday,A1,noun,NONE
+574,mañana temprano,early morning,A1,noun,early morning sunrise
+575,tarde,afternoon,A1,noun,sunny afternoon park
+576,noche,night time,A1,noun,starry night sky
+577,medianoche,midnight,A1,noun,midnight clock 12
+578,mediodía,noon,A1,noun,bright noon sun clock
+579,semana,week,A1,noun,weekly calendar page
+580,mes,month,A1,noun,monthly calendar page
+581,año,year,A1,noun,new year fireworks
+582,siglo,century,A1,noun,historical timeline century
+583,hoy por la mañana,this morning,A1,phrase,morning coffee window
+584,esta tarde,this afternoon,A1,phrase,afternoon walking street
+585,esta noche,tonight,A1,phrase,city lights tonight
+586,ahora,now,A1,adverb,NONE
+587,luego,later,A1,adverb,NONE
+588,antes,before,A1,adverb,NONE
+589,después,after,A1,adverb,NONE
+590,pronto,soon,A1,adverb,NONE
+591,tarde adverbio,late,A1,adverb,running late clock
+592,temprano,early,A1,adverb,early alarm clock
+593,aquí,here,A1,adverb,NONE
+594,allí,there,A1,adverb,NONE
+595,cerca,near,A1,adverb,two close objects
+596,lejos,far,A1,adverb,distant horizon road
+597,arriba,up,A1,adverb,arrow pointing up
+598,abajo,down,A1,adverb,arrow pointing down
+599,dentro,inside,A1,adverb,box open inside
+600,fuera,outside,A1,adverb,outside garden patio
