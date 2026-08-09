@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { loginUserAsync, signupUserAsync, UserProfile } from '@/lib/auth';
-import { Sparkles, Lock, User, ArrowRight, UserPlus, LogIn, AlertCircle } from 'lucide-react';
+import { Sparkles, Lock, User, ArrowRight, UserPlus, LogIn, AlertCircle, Star } from 'lucide-react';
 
 interface LoginScreenProps {
   onSuccess: (user: UserProfile) => void;
@@ -184,12 +184,18 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onSuccess }) => {
               setIsSignup(!isSignup);
               setError(null);
             }}
-            className="text-xs text-slate-400 hover:text-rose-400 transition-colors font-medium"
+            className="text-xs text-slate-400 hover:text-rose-400 transition-colors font-medium inline-flex items-center gap-1.5 justify-center"
           >
             {isSignup ? (
               <span>Already have an account? <strong className="text-white underline">Log in here</strong></span>
             ) : (
-              <span>Don't have an account? <strong className="text-white underline">Sign up here</strong></span>
+              <span className="inline-flex items-center gap-1">
+                Don't have an account?{' '}
+                <strong className="text-white underline inline-flex items-center gap-1">
+                  Sign up here
+                  <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400 shrink-0 inline-block drop-shadow-[0_0_6px_rgba(251,191,36,0.6)]" />
+                </strong>
+              </span>
             )}
           </button>
         </div>
