@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import confetti from 'canvas-confetti';
-import { Volume2, ArrowRight, CheckCircle2, XCircle } from 'lucide-react';
+import { Volume2, RotateCw, ArrowRight, CheckCircle2, XCircle } from 'lucide-react';
 import { QuizQuestion, UserSettings } from '@/types/vocabulary';
 import { ImageDisplay } from './ImageDisplay';
 import { playCorrectSound, playIncorrectSound, speakSpanishWord } from '@/lib/audio';
@@ -32,11 +32,11 @@ export const QuizCard: React.FC<QuizCardProps> = ({
     setIsAnswered(false);
     setIsCorrect(null);
 
-    // Speak Spanish word on load if audio setting is enabled
-    if (settings.speechEnabled) {
-      speakSpanishWord(word.spanish, true);
+    // Speak Spanish word on load if both speech and sound are enabled
+    if (settings.speechEnabled && settings.soundEnabled) {
+      speakSpanishWord(word.spanish, settings.soundEnabled);
     }
-  }, [question, settings.speechEnabled]);
+  }, [question, settings.speechEnabled, settings.soundEnabled]);
 
   const handleSelectOption = useCallback(
     (option: string) => {
@@ -93,9 +93,9 @@ export const QuizCard: React.FC<QuizCardProps> = ({
   }, [isAnswered, options, handleSelectOption, onNext]);
 
   return (
-    <div className="w-full max-w-xl mx-auto bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-xl dark:shadow-2xl dark:shadow-slate-950/60 transition-all flex flex-col items-center">
+    <div className="w-full max-w-xl mx-auto bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-7 backdrop-blur-xl shadow-xl dark:shadow-2xl dark:shadow-slate-950/60 transition-all flex flex-col items-center">
       {/* Top Level & Part of Speech Badge */}
-      <div className="w-full flex items-center justify-between mb-4">
+      <div className="w-full flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <span className="px-3 py-1 rounded-full text-xs font-bold bg-rose-500/10 dark:bg-rose-500/20 text-rose-600 dark:text-rose-300 border border-rose-500/20 dark:border-rose-500/30">
             {word.level}
@@ -105,24 +105,25 @@ export const QuizCard: React.FC<QuizCardProps> = ({
           </span>
         </div>
 
+        {/* Speaker icon with repeat loop arrow */}
         <button
-          onClick={() => speakSpanishWord(word.spanish, true)}
-          className="p-2 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-rose-600 dark:text-rose-400 transition-colors flex items-center gap-1 text-xs font-medium"
-          title="Listen to pronunciation"
+          onClick={() => speakSpanishWord(word.spanish, settings.soundEnabled)}
+          className="p-1.5 px-3 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-rose-600 dark:text-rose-400 transition-colors flex items-center gap-1.5 text-xs font-bold border border-slate-200 dark:border-slate-700/80 shadow-sm"
+          title="Repeat pronunciation"
         >
-          <Volume2 className="w-4 h-4" />
-          <span className="hidden sm:inline">Listen</span>
+          <div className="relative flex items-center justify-center shrink-0">
+            <Volume2 className="w-4 h-4 text-rose-500" />
+            <RotateCw className="w-2.5 h-2.5 absolute -top-1 -right-1 text-amber-500 stroke-[2.5]" />
+          </div>
+          <span className="hidden sm:inline">Repeat</span>
         </button>
       </div>
 
-      {/* Target Spanish Word */}
-      <div className="text-center my-2">
-        <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white capitalize mb-1">
+      {/* Target Spanish Word (Shifted higher up, prompt text removed) */}
+      <div className="text-center mt-0 mb-3">
+        <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white capitalize">
           {word.spanish}
         </h2>
-        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">
-          What does <span className="text-rose-600 dark:text-rose-400 font-semibold">"{word.spanish}"</span> mean?
-        </p>
       </div>
 
       {/* Image Container */}

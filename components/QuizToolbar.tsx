@@ -37,7 +37,7 @@ export const QuizToolbar: React.FC<QuizToolbarProps> = ({
   };
 
   return (
-    <div className="w-full max-w-xl mx-auto mb-5 bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-3 sm:p-4 backdrop-blur-md shadow-lg flex flex-col gap-3 transition-colors">
+    <div className="w-full max-w-xl mx-auto mb-0 bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-3 sm:p-4 backdrop-blur-md shadow-lg flex flex-col gap-3 transition-colors">
       {/* Top Row: Quick Toggles (Image ON/OFF & Sound ON/OFF switches) */}
       <div className="flex items-center justify-between px-1">
         {/* Image ON / OFF Switch */}

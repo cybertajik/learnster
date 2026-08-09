@@ -215,7 +215,7 @@ export default function LearnPage() {
         onLogout={() => setCurrentUser(null)}
       />
 
-      <main className="flex-1 max-w-5xl mx-auto w-full px-4 py-6 flex flex-col items-center justify-center">
+      <main className="flex-1 max-w-5xl mx-auto w-full px-4 pt-0 pb-4 flex flex-col items-center justify-start gap-2">
         {/* Quiz Toolbar: Image ON/OFF, Sound ON/OFF, Level Selection A1-A2-B1-B2-Sentences */}
         <QuizToolbar settings={settings} onSettingsChange={handleSettingsChange} />
 

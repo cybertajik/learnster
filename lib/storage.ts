@@ -13,9 +13,9 @@ export const DEFAULT_PROGRESS: UserProgress = {
 
 export const DEFAULT_SETTINGS: UserSettings = {
   levelFilter: 'ALL',
-  imagesEnabled: true,
-  soundEnabled: true,
-  speechEnabled: true,
+  imagesEnabled: false,
+  soundEnabled: false,
+  speechEnabled: false,
   theme: 'dark',
 };
 
