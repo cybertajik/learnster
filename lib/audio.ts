@@ -1,9 +1,10 @@
 /**
  * Web Audio API synthesizer for sound effects (correct / incorrect feedback)
- * and Web Speech API for native Spanish pronunciation.
+ * and Neural Spanish Text-to-Speech audio player.
  */
 
 let audioCtx: AudioContext | null = null;
+let activeAudioElement: HTMLAudioElement | null = null;
 
 function getAudioContext(): AudioContext | null {
   if (typeof window === 'undefined') return null;
@@ -89,18 +90,52 @@ export function playIncorrectSound(enabled: boolean = true) {
 }
 
 /**
- * Speak Spanish text using browser SpeechSynthesis API
+ * Speak Spanish text using High Quality Natural Neural Audio API with Web Speech fallback
  */
 export function speakSpanishWord(text: string, enabled: boolean = true) {
-  if (!enabled || typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+  if (!enabled || typeof window === 'undefined' || !text.trim()) return;
 
   try {
-    window.speechSynthesis.cancel(); // Stop any ongoing speech
+    // Stop any ongoing audio playback
+    if (activeAudioElement) {
+      activeAudioElement.pause();
+      activeAudioElement = null;
+    }
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+
+    // High quality natural Spanish speech via serverless API route
+    const ttsUrl = `/api/audio/tts?text=${encodeURIComponent(text.trim())}`;
+    const audio = new Audio(ttsUrl);
+    activeAudioElement = audio;
+
+    audio.play().catch(() => {
+      // Fallback to browser SpeechSynthesis if audio element fails
+      fallbackBrowserSpeech(text);
+    });
+  } catch (e) {
+    fallbackBrowserSpeech(text);
+  }
+}
+
+function fallbackBrowserSpeech(text: string) {
+  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+  try {
+    window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'es-ES'; // Spanish (Spain) or 'es-MX'
-    utterance.rate = 0.9; // Slightly slower for clear vocabulary learning
+    utterance.lang = 'es-ES';
+    utterance.rate = 0.9;
+    
+    // Select natural Spanish voice if available
+    const voices = window.speechSynthesis.getVoices();
+    const esVoice = voices.find(
+      (v) => (v.lang.startsWith('es') || v.lang.includes('ES')) && !v.name.toLowerCase().includes('robot')
+    );
+    if (esVoice) utterance.voice = esVoice;
+
     window.speechSynthesis.speak(utterance);
   } catch (e) {
-    console.error('Speech synthesis error:', e);
+    console.error('Fallback speech synthesis error:', e);
   }
 }
