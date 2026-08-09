@@ -40,20 +40,24 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   }, [currentTheme]);
 
-  const navLinks = [
-    { href: '/', label: 'Learn', icon: BookOpen },
-    { href: '/progress', label: 'Progress', icon: BarChart2 },
-    { href: '/settings', label: 'Settings', icon: SettingsIcon },
-  ];
+  const isDemo = !!user?.isDemo;
+
+  const navLinks = isDemo
+    ? [{ href: '/', label: 'Learn', icon: BookOpen }]
+    : [
+        { href: '/', label: 'Learn', icon: BookOpen },
+        { href: '/progress', label: 'Progress', icon: BarChart2 },
+        { href: '/settings', label: 'Settings', icon: SettingsIcon },
+      ];
 
   const mascotSrc = getMascotImagePath(mascotExpression);
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-white/90 dark:bg-slate-900/90 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors">
-      <div className="max-w-5xl mx-auto px-3 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-2">
+      <div className="max-w-5xl mx-auto px-3 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-1.5 sm:gap-2">
         {/* Merged Single Top Bar: Bigger Mascot Logo */}
         <Link href="/" className="flex items-center gap-2 shrink-0 group" title="Lernster">
-          <div className="relative w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 sm:border-3 border-amber-400 shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform bg-amber-100 shrink-0">
+          <div className="relative w-10 h-10 sm:w-16 sm:h-16 rounded-full overflow-hidden border-2 sm:border-3 border-amber-400 shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform bg-amber-100 shrink-0">
             <img
               src={mascotSrc}
               alt="Mascot Logo"
@@ -63,10 +67,15 @@ export const Navbar: React.FC<NavbarProps> = ({
               }}
             />
           </div>
+          {isDemo && (
+            <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-400/15 text-amber-500 border border-amber-400/40">
+              Demo
+            </span>
+          )}
         </Link>
 
         {/* Navigation Items in ONE Merged Top Bar: Learn | Progress | Settings */}
-        <nav className="flex items-center gap-1 sm:gap-2 bg-slate-100 dark:bg-slate-800/60 p-1 rounded-full border border-slate-200 dark:border-slate-700/60">
+        <nav className="flex items-center gap-0.5 sm:gap-2 bg-slate-100 dark:bg-slate-800/60 p-1 rounded-full border border-slate-200 dark:border-slate-700/60 overflow-x-auto">
           {navLinks.map((link) => {
             const Icon = link.icon;
             const isActive = pathname === link.href;
@@ -74,7 +83,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-all ${
+                className={`flex items-center gap-1.5 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-all whitespace-nowrap ${
                   isActive
                     ? 'bg-gradient-to-r from-rose-500 to-red-600 text-white shadow-md shadow-rose-900/30'
                     : 'text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-700/50'
@@ -91,12 +100,12 @@ export const Navbar: React.FC<NavbarProps> = ({
         {user && (
           <button
             onClick={() => {
-              logoutUser();
+              logoutUser(isDemo);
               if (onLogout) onLogout();
               window.location.reload();
             }}
             className="p-2 sm:p-2.5 rounded-full bg-slate-100 hover:bg-rose-100 dark:bg-slate-800 dark:hover:bg-rose-950/50 text-slate-600 hover:text-rose-600 dark:text-slate-300 dark:hover:text-rose-400 border border-slate-200 dark:border-slate-700/80 transition-colors shrink-0"
-            title="Log Out"
+            title={isDemo ? 'Exit Demo' : 'Log Out'}
           >
             <LogOut className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
           </button>

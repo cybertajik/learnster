@@ -1,14 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import { loginUserAsync, signupUserAsync, UserProfile } from '@/lib/auth';
-import { Sparkles, Lock, User, ArrowRight, UserPlus, LogIn, AlertCircle } from 'lucide-react';
+import { loginUserAsync, signupUserAsync, createDemoUser, UserProfile } from '@/lib/auth';
+import { Sparkles, Lock, User, ArrowRight, UserPlus, LogIn, AlertCircle, PlayCircle } from 'lucide-react';
 
 interface LoginScreenProps {
   onSuccess: (user: UserProfile) => void;
+  onDemo?: (user: UserProfile) => void;
 }
 
-export const LoginScreen: React.FC<LoginScreenProps> = ({ onSuccess }) => {
+export const LoginScreen: React.FC<LoginScreenProps> = ({ onSuccess, onDemo }) => {
   const [isSignup, setIsSignup] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -187,12 +188,33 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onSuccess }) => {
             className="text-xs text-slate-400 hover:text-rose-400 transition-colors font-medium"
           >
             {isSignup ? (
-              <span>Already have an account? <strong className="text-white underline">Log in here</strong></span>
+              <span>{'Already have an account? '}<strong className="text-white underline">Log in here</strong></span>
             ) : (
-              <span>Don't have an account? <strong className="text-white underline">Sign up here</strong></span>
+              <span>{"Don't have an account? "}<strong className="text-white underline">Sign up here</strong></span>
             )}
           </button>
         </div>
+
+        {/* Divider */}
+        {onDemo && (
+          <>
+            <div className="flex items-center gap-3 w-full mt-5">
+              <div className="flex-1 h-px bg-slate-800" />
+              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">or</span>
+              <div className="flex-1 h-px bg-slate-800" />
+            </div>
+
+            {/* Try Demo Button */}
+            <button
+              type="button"
+              onClick={() => onDemo(createDemoUser())}
+              className="w-full mt-4 py-3.5 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 text-slate-100 font-bold text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95"
+            >
+              <PlayCircle className="w-5 h-5 text-amber-400" />
+              <span>Try Demo (10 questions, no account)</span>
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

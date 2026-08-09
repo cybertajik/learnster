@@ -6,6 +6,20 @@ export interface UserProfile {
   name?: string;
   created: string;
   id?: string;
+  isDemo?: boolean;
+}
+
+/**
+ * Creates an ephemeral, in-memory demo user profile.
+ * Demo sessions are never persisted to localStorage or Supabase.
+ */
+export function createDemoUser(): UserProfile {
+  return {
+    username: 'demo',
+    name: 'Demo Guest',
+    created: new Date().toISOString(),
+    isDemo: true,
+  };
 }
 
 const CURRENT_USER_KEY = 'lernster_current_user_v1';
@@ -179,8 +193,12 @@ export function loginUser(username: string, password: string): { success: boolea
   }
 }
 
-export async function logoutUser(): Promise<void> {
+export async function logoutUser(isDemo?: boolean): Promise<void> {
   if (typeof window === 'undefined') return;
+  if (isDemo) {
+    // Demo sessions never touch Supabase or localStorage; nothing to clean up.
+    return;
+  }
   try {
     await supabase.auth.signOut();
   } catch (e) {
