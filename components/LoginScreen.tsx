@@ -72,12 +72,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onSuccess }) => {
         {/* Mascot Logo Avatar */}
         <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-amber-400 shadow-xl shadow-amber-500/20 mb-4 bg-amber-100 shrink-0 transform hover:scale-105 transition-transform">
           <img
-            src="/expressions/happy.jpg"
-            alt="Spanishly Mascot"
+            src="/logo.png"
+            alt="Spanishly Mascot Logo"
             className="w-full h-full object-cover"
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = '/logo.png';
-            }}
           />
         </div>
 
