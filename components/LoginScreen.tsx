@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { loginUser, signupUser, UserProfile } from '@/lib/auth';
+import { loginUserAsync, signupUserAsync, UserProfile } from '@/lib/auth';
 import { Sparkles, Lock, User, ArrowRight, UserPlus, LogIn, AlertCircle } from 'lucide-react';
 
 interface LoginScreenProps {
@@ -16,7 +16,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onSuccess }) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
@@ -41,7 +41,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onSuccess }) => {
       }
 
       setIsLoading(true);
-      const result = signupUser(username, password);
+      const result = await signupUserAsync(username, password);
       setIsLoading(false);
 
       if (result.success && result.user) {
@@ -51,7 +51,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onSuccess }) => {
       }
     } else {
       setIsLoading(true);
-      const result = loginUser(username, password);
+      const result = await loginUserAsync(username, password);
       setIsLoading(false);
 
       if (result.success && result.user) {

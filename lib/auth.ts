@@ -1,11 +1,15 @@
+import { supabase } from './supabase';
+
 export interface UserProfile {
   username: string;
+  email?: string;
   name?: string;
   created: string;
+  id?: string;
 }
 
-const CURRENT_USER_KEY = 'spanishly_current_user_v1';
-const USERS_DB_KEY = 'spanishly_users_db_v1';
+const CURRENT_USER_KEY = 'lernster_current_user_v1';
+const USERS_DB_KEY = 'lernster_users_db_v1';
 
 export function getCurrentUser(): UserProfile | null {
   if (typeof window === 'undefined') return null;
@@ -15,6 +19,64 @@ export function getCurrentUser(): UserProfile | null {
     return JSON.parse(raw);
   } catch (e) {
     return null;
+  }
+}
+
+export async function signupUserAsync(username: string, password: string): Promise<{ success: boolean; message?: string; user?: UserProfile }> {
+  if (typeof window === 'undefined') return { success: false, message: 'Browser environment required' };
+  
+  const cleanUsername = username.trim().toLowerCase();
+  if (!cleanUsername || cleanUsername.length < 3) {
+    return { success: false, message: 'Username must be at least 3 characters long' };
+  }
+  if (!password || password.length < 4) {
+    return { success: false, message: 'Password must be at least 4 characters long' };
+  }
+
+  // Construct valid email format for Supabase Auth if username supplied
+  const syntheticEmail = cleanUsername.includes('@') ? cleanUsername : `${cleanUsername}@lernster.app`;
+
+  try {
+    // Attempt Supabase Auth Sign Up
+    const { data: authData, error: authError } = await supabase.auth.signUp({
+      email: syntheticEmail,
+      password: password,
+      options: {
+        data: { username: cleanUsername }
+      }
+    });
+
+    if (authError && authError.message && !authError.message.includes('FetchError') && !authError.message.includes('Failed to fetch')) {
+      // If Supabase returns explicit validation error (e.g. user already registered)
+      if (authError.message.includes('already registered')) {
+        return { success: false, message: 'Username is already taken' };
+      }
+    }
+
+    const createdIso = new Date().toISOString();
+    const sessionUser: UserProfile = {
+      id: authData?.user?.id,
+      username: cleanUsername,
+      email: syntheticEmail,
+      name: cleanUsername.charAt(0).toUpperCase() + cleanUsername.slice(1),
+      created: createdIso,
+    };
+
+    // Save to local storage for instant offline access
+    const rawDb = localStorage.getItem(USERS_DB_KEY);
+    const db: Record<string, any> = rawDb ? JSON.parse(rawDb) : {};
+    db[cleanUsername] = {
+      username: cleanUsername,
+      passwordHash: btoa(password),
+      created: createdIso
+    };
+    localStorage.setItem(USERS_DB_KEY, JSON.stringify(db));
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(sessionUser));
+
+    return { success: true, user: sessionUser };
+  } catch (e) {
+    // Fallback sync signup
+    return signupUser(username, password);
   }
 }
 
@@ -39,7 +101,7 @@ export function signupUser(username: string, password: string): { success: boole
 
     const newUser = {
       username: cleanUsername,
-      passwordHash: btoa(password), // Simple encoding for local MVP auth
+      passwordHash: btoa(password),
       created: new Date().toISOString(),
     };
 
@@ -56,6 +118,38 @@ export function signupUser(username: string, password: string): { success: boole
     return { success: true, user: sessionUser };
   } catch (e) {
     return { success: false, message: 'Error processing signup' };
+  }
+}
+
+export async function loginUserAsync(username: string, password: string): Promise<{ success: boolean; message?: string; user?: UserProfile }> {
+  if (typeof window === 'undefined') return { success: false, message: 'Browser environment required' };
+
+  const cleanUsername = username.trim().toLowerCase();
+  const syntheticEmail = cleanUsername.includes('@') ? cleanUsername : `${cleanUsername}@lernster.app`;
+
+  try {
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+      email: syntheticEmail,
+      password: password,
+    });
+
+    if (!authError && authData?.user) {
+      const sessionUser: UserProfile = {
+        id: authData.user.id,
+        username: cleanUsername,
+        email: syntheticEmail,
+        name: cleanUsername.charAt(0).toUpperCase() + cleanUsername.slice(1),
+        created: authData.user.created_at || new Date().toISOString(),
+      };
+
+      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(sessionUser));
+      return { success: true, user: sessionUser };
+    }
+
+    // If Supabase login fails or offline, attempt local login
+    return loginUser(username, password);
+  } catch (e) {
+    return loginUser(username, password);
   }
 }
 
@@ -85,7 +179,12 @@ export function loginUser(username: string, password: string): { success: boolea
   }
 }
 
-export function logoutUser(): void {
+export async function logoutUser(): Promise<void> {
   if (typeof window === 'undefined') return;
+  try {
+    await supabase.auth.signOut();
+  } catch (e) {
+    // Ignore offline logout errors
+  }
   localStorage.removeItem(CURRENT_USER_KEY);
 }

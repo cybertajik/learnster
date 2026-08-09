@@ -1,8 +1,10 @@
-import { UserProgress, UserSettings, ImageMetadata, Word } from '@/types/vocabulary';
+import { UserProgress, UserSettings, ImageMetadata } from '@/types/vocabulary';
+import { supabase } from './supabase';
+import { getCurrentUser } from './auth';
 
-const PROGRESS_STORAGE_KEY = 'spanishly_user_progress_v1';
-const SETTINGS_STORAGE_KEY = 'spanishly_user_settings_v1';
-const IMAGE_CACHE_KEY = 'spanishly_image_cache_v1';
+const PROGRESS_STORAGE_KEY = 'lernster_user_progress_v1';
+const SETTINGS_STORAGE_KEY = 'lernster_user_settings_v1';
+const IMAGE_CACHE_KEY = 'lernster_image_cache_v1';
 
 export const DEFAULT_PROGRESS: UserProgress = {
   totalQuestions: 0,
@@ -39,13 +41,32 @@ export function loadUserProgress(): UserProgress {
 }
 
 /**
- * Save user progress to localStorage
+ * Save user progress to localStorage and sync to Supabase if logged in
  */
 export function saveUserProgress(progress: UserProgress): void {
   if (typeof window === 'undefined') return;
 
   try {
     localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(progress));
+    
+    // Background async sync to Supabase
+    const currentUser = getCurrentUser();
+    if (currentUser && currentUser.id) {
+      Promise.resolve(
+        supabase.from('user_progress').upsert({
+          user_id: currentUser.id,
+          total_questions: progress.totalQuestions,
+          correct: progress.correct,
+          incorrect: progress.incorrect,
+          current_streak: progress.currentStreak,
+          best_streak: progress.bestStreak,
+          words_data: progress.words,
+          updated_at: new Date().toISOString()
+        })
+      ).then(({ error }) => {
+        if (error) console.log('Supabase progress sync notice:', error.message);
+      }).catch(() => {});
+    }
   } catch (e) {
     console.error('Error saving user progress to localStorage:', e);
   }
