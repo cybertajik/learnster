@@ -31,20 +31,78 @@ export default function AdminPage() {
     practicedWordsCount: 0,
   });
 
+  const loadAdminData = async () => {
+    const localUsers = getAdminUsersList();
+    const analytics = getAdminGlobalAnalytics();
+
+    let mergedUsers = [...localUsers];
+
+    try {
+      const res = await fetch('/api/admin/users');
+      const data = await res.json();
+      if (data.success && data.users && Array.isArray(data.users)) {
+        const map: Record<string, AdminUserRecord> = {};
+
+        localUsers.forEach((u) => {
+          map[u.username.toLowerCase()] = u;
+        });
+
+        data.users.forEach((su: any) => {
+          const key = su.username.toLowerCase();
+          if (!map[key]) {
+            map[key] = {
+              username: su.username,
+              name: su.name || su.username,
+              created: su.created || new Date().toISOString(),
+              device: su.device || 'Web Client',
+              country: su.country || 'United States',
+              countryFlag: su.countryFlag || '🇺🇸',
+              ip: su.ip || '127.0.0.1',
+              lastActive: su.created || new Date().toISOString(),
+              totalTries: su.totalTries || 0,
+              correctTries: su.correctTries || 0,
+              incorrectTries: su.incorrectTries || 0,
+            };
+          } else {
+            map[key].totalTries = Math.max(map[key].totalTries || 0, su.totalTries || 0);
+            map[key].correctTries = Math.max(map[key].correctTries || 0, su.correctTries || 0);
+            map[key].incorrectTries = Math.max(map[key].incorrectTries || 0, su.incorrectTries || 0);
+          }
+        });
+
+        mergedUsers = Object.values(map);
+      }
+    } catch (e) {
+      console.error('Error fetching API admin users:', e);
+    }
+
+    setUsersList(mergedUsers);
+
+    let totalT = analytics.totalTries;
+    let correctT = analytics.correctTries;
+    let incorrectT = analytics.incorrectTries;
+
+    mergedUsers.forEach((u) => {
+      totalT = Math.max(totalT, u.totalTries || 0);
+      correctT = Math.max(correctT, u.correctTries || 0);
+      incorrectT = Math.max(incorrectT, u.incorrectTries || 0);
+    });
+
+    setGlobalStats({
+      totalTries: totalT,
+      correctTries: correctT,
+      incorrectTries: incorrectT,
+      practicedWordsCount: Object.keys(analytics.practicedWordIds || {}).length,
+    });
+  };
+
   useEffect(() => {
     const user = getCurrentUser();
     setCurrentUser(user);
     setAuthChecked(true);
 
     if (user && user.isAdmin) {
-      setUsersList(getAdminUsersList());
-      const analytics = getAdminGlobalAnalytics();
-      setGlobalStats({
-        totalTries: analytics.totalTries,
-        correctTries: analytics.correctTries,
-        incorrectTries: analytics.incorrectTries,
-        practicedWordsCount: Object.keys(analytics.practicedWordIds || {}).length,
-      });
+      loadAdminData();
     }
   }, []);
 
@@ -66,14 +124,7 @@ export default function AdminPage() {
         <LoginScreen onSuccess={(u) => {
           setCurrentUser(u);
           if (u.isAdmin) {
-            setUsersList(getAdminUsersList());
-            const analytics = getAdminGlobalAnalytics();
-            setGlobalStats({
-              totalTries: analytics.totalTries,
-              correctTries: analytics.correctTries,
-              incorrectTries: analytics.incorrectTries,
-              practicedWordsCount: Object.keys(analytics.practicedWordIds || {}).length,
-            });
+            loadAdminData();
           }
         }} />
       </div>
