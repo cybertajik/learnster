@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 import { ExternalLink, Camera, ImageOff } from 'lucide-react';
 import { ImageMetadata } from '@/types/vocabulary';
 

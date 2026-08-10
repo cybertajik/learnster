@@ -1,9 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Image as ImageIcon, Volume2, Sparkles, BookOpen } from 'lucide-react';
+import { Image as ImageIcon, Volume2 } from 'lucide-react';
 import { UserSettings, Level } from '@/types/vocabulary';
-import { saveUserSettings } from '@/lib/storage';
 
 export type LevelFilterMode = 'ALL' | Level | 'Sentences';
 
@@ -20,20 +19,17 @@ export const QuizToolbar: React.FC<QuizToolbarProps> = ({
 
   const handleLevelSelect = (lvl: LevelFilterMode) => {
     const updated = { ...settings, levelFilter: lvl as 'ALL' | Level };
-    onSettingsChange(updated);
-    saveUserSettings(updated);
+    onSettingsChange(updated); // parent handles saving
   };
 
   const handleToggleImages = () => {
     const updated = { ...settings, imagesEnabled: !settings.imagesEnabled };
-    onSettingsChange(updated);
-    saveUserSettings(updated);
+    onSettingsChange(updated); // parent handles saving
   };
 
   const handleToggleSound = () => {
     const updated = { ...settings, soundEnabled: !settings.soundEnabled };
-    onSettingsChange(updated);
-    saveUserSettings(updated);
+    onSettingsChange(updated); // parent handles saving
   };
 
   return (

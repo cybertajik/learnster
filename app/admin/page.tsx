@@ -38,7 +38,10 @@ export default function AdminPage() {
     let mergedUsers = [...localUsers];
 
     try {
-      const res = await fetch('/api/admin/users');
+      const adminToken = typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('lernster_admin_token') : null;
+      const res = await fetch('/api/admin/users', {
+        headers: adminToken ? { 'Authorization': `Bearer ${adminToken}` } : {},
+      });
       const data = await res.json();
       if (data.success && data.users && Array.isArray(data.users)) {
         const map: Record<string, AdminUserRecord> = {};
@@ -55,9 +58,8 @@ export default function AdminPage() {
               name: su.name || su.username,
               created: su.created || new Date().toISOString(),
               device: su.device || 'Web Client',
-              country: su.country || 'United States',
-              countryFlag: su.countryFlag || '🇺🇸',
-              ip: su.ip || '127.0.0.1',
+              country: su.country || 'Unknown',
+              countryFlag: su.countryFlag || '🌐',
               lastActive: su.created || new Date().toISOString(),
               totalTries: su.totalTries || 0,
               correctTries: su.correctTries || 0,
@@ -78,15 +80,21 @@ export default function AdminPage() {
 
     setUsersList(mergedUsers);
 
-    let totalT = analytics.totalTries;
-    let correctT = analytics.correctTries;
-    let incorrectT = analytics.incorrectTries;
+    // BUG-5 fix: Sum all user stats instead of taking max
+    let totalT = 0;
+    let correctT = 0;
+    let incorrectT = 0;
 
     mergedUsers.forEach((u) => {
-      totalT = Math.max(totalT, u.totalTries || 0);
-      correctT = Math.max(correctT, u.correctTries || 0);
-      incorrectT = Math.max(incorrectT, u.incorrectTries || 0);
+      totalT += (u.totalTries || 0);
+      correctT += (u.correctTries || 0);
+      incorrectT += (u.incorrectTries || 0);
     });
+
+    // Include local analytics if they exceed user-level totals
+    totalT = Math.max(totalT, analytics.totalTries);
+    correctT = Math.max(correctT, analytics.correctTries);
+    incorrectT = Math.max(incorrectT, analytics.incorrectTries);
 
     setGlobalStats({
       totalTries: totalT,
@@ -118,7 +126,7 @@ export default function AdminPage() {
           </div>
           <h2 className="text-xl font-bold text-white">System Admin Portal</h2>
           <p className="text-xs text-slate-400 mt-1">
-            Please log in with admin username (<code className="text-amber-300 font-mono">admin</code>) and admin password to access analytics.
+            Please log in with admin credentials to access analytics.
           </p>
         </div>
         <LoginScreen onSuccess={(u) => {
@@ -321,7 +329,6 @@ export default function AdminPage() {
                             <span className="font-semibold text-xs text-slate-800 dark:text-slate-200">
                               {userRec.country || 'Unknown'}
                             </span>
-                            <span className="text-[11px] text-slate-500 font-mono">{userRec.ip || '127.0.0.1'}</span>
                           </div>
                         </div>
                       </td>

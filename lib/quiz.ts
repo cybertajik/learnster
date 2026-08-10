@@ -147,7 +147,7 @@ export function preloadUpcomingImages(questions: QuizQuestion[]): void {
   if (typeof window === 'undefined') return;
 
   questions.forEach((q) => {
-    if (q.word.image.enabled && q.word.image.url) {
+    if (q.word.image && q.word.image.enabled && q.word.image.url) {
       const img = new Image();
       img.src = q.word.image.url;
     }

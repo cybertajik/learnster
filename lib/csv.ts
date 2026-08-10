@@ -1,6 +1,41 @@
 import { Word, Level, PartOfSpeech } from '@/types/vocabulary';
 
 /**
+ * Parse a single CSV line respecting quoted fields (handles commas within quotes).
+ * MED-3 fix: Replaces naive comma-split that broke on values like "Hola, ¿cómo estás?"
+ */
+function parseCSVLine(line: string): string[] {
+  const result: string[] = [];
+  let current = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (inQuotes) {
+      if (ch === '"' && i + 1 < line.length && line[i + 1] === '"') {
+        current += '"'; // escaped quote
+        i++;
+      } else if (ch === '"') {
+        inQuotes = false;
+      } else {
+        current += ch;
+      }
+    } else {
+      if (ch === '"') {
+        inQuotes = true;
+      } else if (ch === ',') {
+        result.push(current.trim());
+        current = '';
+      } else {
+        current += ch;
+      }
+    }
+  }
+  result.push(current.trim());
+  return result;
+}
+
+/**
  * Parse CSV text string into validated internal Word objects
  */
 export function parseVocabularyCSV(csvContent: string): { words: Word[]; errors: string[] } {
@@ -38,8 +73,8 @@ export function parseVocabularyCSV(csvContent: string): { words: Word[]; errors:
 
   for (let i = 1; i < lines.length; i++) {
     const rawLine = lines[i];
-    // Simple CSV parser handling comma delimiter
-    const cols = rawLine.split(',').map((c) => c.trim().replace(/^["']|["']$/g, ''));
+    // MED-3 fix: Proper CSV parser that handles commas inside quoted fields
+    const cols = parseCSVLine(rawLine);
 
     if (cols.length < 2) continue;
 

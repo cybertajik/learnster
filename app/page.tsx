@@ -40,7 +40,13 @@ export default function LearnPage() {
   const [timeSpentSeconds, setTimeSpentSeconds] = useState(0);
 
   // Demo mode question counter & notice
-  const [demoQuestionsCount, setDemoQuestionsCount] = useState(0);
+  // BUG-4 fix: Persist demo counter in sessionStorage
+  const [demoQuestionsCount, setDemoQuestionsCount] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return parseInt(sessionStorage.getItem('lernster_demo_count') || '0', 10);
+    }
+    return 0;
+  });
   const [demoNotice, setDemoNotice] = useState<string | null>(null);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -171,9 +177,11 @@ export default function LearnPage() {
         setCurrentUser(null);
         setDemoNotice('Demo session finished (10 questions completed)! Please log in or sign up to save your progress.');
         setDemoQuestionsCount(0);
+        sessionStorage.removeItem('lernster_demo_count');
         return;
       }
       setDemoQuestionsCount(nextCount);
+      sessionStorage.setItem('lernster_demo_count', String(nextCount));
     }
 
     setLastAnswerCorrect(null);

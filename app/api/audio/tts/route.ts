@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 
+const MAX_TEXT_LENGTH = 200; // Maximum characters for TTS input (HIGH-2 fix)
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -9,9 +11,23 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Text parameter is required' }, { status: 400 });
     }
 
-    // Google Neural TTS Endpoint for authentic, natural human Spanish pronunciation
+    // HIGH-2 fix: Enforce input length limit to prevent abuse
+    if (text.length > MAX_TEXT_LENGTH) {
+      return NextResponse.json(
+        { error: `Text exceeds maximum length of ${MAX_TEXT_LENGTH} characters` },
+        { status: 400 }
+      );
+    }
+
+    // Sanitize: only allow letters, numbers, spaces, and basic punctuation
+    const sanitized = text.trim().replace(/[^\p{L}\p{N}\s.,!?¿¡'-]/gu, '');
+    if (!sanitized) {
+      return NextResponse.json({ error: 'Text contains no valid characters' }, { status: 400 });
+    }
+
+    // Google TTS Endpoint for Spanish pronunciation
     const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(
-      text
+      sanitized
     )}&tl=es&client=tw-ob`;
 
     const response = await fetch(googleTtsUrl, {

@@ -1,13 +1,34 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://wjpebwftwbhlcankgrms.supabase.co';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
-export async function GET() {
+/**
+ * Verify the admin session token from the Authorization header (HIGH-1 fix).
+ */
+function verifyAdminToken(request: NextRequest): boolean {
+  const authHeader = request.headers.get('Authorization');
+  if (!authHeader || !authHeader.startsWith('Bearer ')) return false;
+  const token = authHeader.slice(7);
+  if (!token) return false;
+
+  const tokens = globalThis.__adminTokens as Set<string> | undefined;
+  return tokens?.has(token) ?? false;
+}
+
+export async function GET(request: NextRequest) {
   try {
-    if (!serviceRoleKey) {
-      return NextResponse.json({ success: true, users: [], message: 'Service Role Key not configured' });
+    // HIGH-1 fix: Require admin authentication
+    if (!verifyAdminToken(request)) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized. Admin login required.' },
+        { status: 401 }
+      );
+    }
+
+    if (!serviceRoleKey || !supabaseUrl) {
+      return NextResponse.json({ success: true, users: [], message: 'Service Role Key or Supabase URL not configured' });
     }
 
     const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey, {
@@ -38,9 +59,8 @@ export async function GET() {
         created: u.created_at,
         email: u.email,
         device: 'Web Client',
-        country: 'United States',
-        countryFlag: '🇺🇸',
-        ip: '127.0.0.1',
+        country: 'Unknown',
+        countryFlag: '🌐',
         totalTries: 0,
         correctTries: 0,
         incorrectTries: 0,
@@ -59,9 +79,8 @@ export async function GET() {
           name: username.charAt(0).toUpperCase() + username.slice(1),
           created: p.updated_at || new Date().toISOString(),
           device: 'Web Client',
-          country: 'United States',
-          countryFlag: '🇺🇸',
-          ip: '127.0.0.1',
+          country: 'Unknown',
+          countryFlag: '🌐',
           totalTries: p.total_questions || 0,
           correctTries: p.correct || 0,
           incorrectTries: p.incorrect || 0,

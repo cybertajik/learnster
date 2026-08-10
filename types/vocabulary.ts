@@ -49,7 +49,7 @@ export interface UserProgress {
 }
 
 export interface UserSettings {
-  levelFilter: 'ALL' | Level;
+  levelFilter: 'ALL' | Level | 'Sentences';
   imagesEnabled: boolean;
   soundEnabled: boolean;
   speechEnabled: boolean;
