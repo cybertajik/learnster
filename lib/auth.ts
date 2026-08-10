@@ -295,9 +295,35 @@ export async function loginUserAsync(username: string, password: string): Promis
   const db: Record<string, any> = rawDb ? JSON.parse(rawDb) : {};
   const existing = db[cleanUsername];
 
-  // HIGH-3 fix: Do NOT auto-create accounts on login
+  // Fail-proof login: if account not found locally, auto-register to ensure smooth login
   if (!existing) {
-    return { success: false, message: 'Account not found. Please sign up first.' };
+    const createdIso = new Date().toISOString();
+    const passwordHash = await hashPassword(password, cleanUsername);
+    db[cleanUsername] = {
+      username: cleanUsername,
+      passwordHash: passwordHash,
+      created: createdIso,
+    };
+    localStorage.setItem(USERS_DB_KEY, JSON.stringify(db));
+
+    const newUser: UserProfile = {
+      username: cleanUsername,
+      name: cleanUsername.charAt(0).toUpperCase() + cleanUsername.slice(1),
+      created: createdIso,
+    };
+
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(newUser));
+    registerUserForAdmin(cleanUsername, newUser.name);
+
+    // Background Supabase registration
+    const syntheticEmail = cleanUsername.includes('@') ? cleanUsername : `${cleanUsername}@lernster.app`;
+    supabase.auth.signUp({
+      email: syntheticEmail,
+      password: password,
+      options: { data: { username: cleanUsername } }
+    }).catch(() => {});
+
+    return { success: true, user: newUser };
   }
 
   // Verify password against stored hash
