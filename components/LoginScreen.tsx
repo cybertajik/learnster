@@ -1,20 +1,26 @@
 'use client';
 
 import React, { useState } from 'react';
-import { loginUserAsync, signupUserAsync, UserProfile } from '@/lib/auth';
-import { Sparkles, Lock, User, ArrowRight, UserPlus, LogIn, AlertCircle, Star } from 'lucide-react';
+import { loginUserAsync, signupUserAsync, startDemoMode, UserProfile } from '@/lib/auth';
+import { Sparkles, Lock, User, ArrowRight, UserPlus, LogIn, AlertCircle, Star, PlayCircle } from 'lucide-react';
 
 interface LoginScreenProps {
   onSuccess: (user: UserProfile) => void;
+  noticeMessage?: string | null;
 }
 
-export const LoginScreen: React.FC<LoginScreenProps> = ({ onSuccess }) => {
+export const LoginScreen: React.FC<LoginScreenProps> = ({ onSuccess, noticeMessage }) => {
   const [isSignup, setIsSignup] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleDemoClick = () => {
+    const demoUser = startDemoMode();
+    onSuccess(demoUser);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,6 +95,14 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onSuccess }) => {
           </p>
         </div>
 
+        {/* Notice Message Alert (e.g. Demo finished notification) */}
+        {noticeMessage && (
+          <div className="w-full p-3 mb-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold flex items-center gap-2 animate-fadeIn">
+            <Sparkles className="w-4 h-4 shrink-0 text-amber-400" />
+            <span>{noticeMessage}</span>
+          </div>
+        )}
+
         {/* Error Alert */}
         {error && (
           <div className="w-full p-3 mb-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs font-semibold flex items-center gap-2 animate-fadeIn">
@@ -110,7 +124,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onSuccess }) => {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="e.g. maria_learner"
+                placeholder="e.g. maria_learner or admin"
                 required
                 className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-rose-500 transition-colors"
               />
@@ -173,6 +187,16 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onSuccess }) => {
               </>
             )}
             <ArrowRight className="w-4 h-4 ml-1" />
+          </button>
+
+          {/* Demo Mode Button */}
+          <button
+            type="button"
+            onClick={handleDemoClick}
+            className="w-full py-3 rounded-xl bg-slate-800/80 hover:bg-slate-800 text-amber-300 font-bold text-sm flex items-center justify-center gap-2 border border-amber-500/30 hover:border-amber-500/60 shadow-md transition-all"
+          >
+            <PlayCircle className="w-4 h-4 text-amber-400" />
+            <span>Try Demo Mode (10 Questions)</span>
           </button>
         </form>
 

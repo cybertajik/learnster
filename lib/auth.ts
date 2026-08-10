@@ -6,10 +6,27 @@ export interface UserProfile {
   name?: string;
   created: string;
   id?: string;
+  isAdmin?: boolean;
+  isDemo?: boolean;
+}
+
+export interface AdminUserRecord {
+  username: string;
+  name: string;
+  created: string;
+  device: string;
+  country: string;
+  countryFlag: string;
+  ip: string;
+  lastActive: string;
+  totalTries: number;
+  correctTries: number;
+  incorrectTries: number;
 }
 
 const CURRENT_USER_KEY = 'lernster_current_user_v1';
 const USERS_DB_KEY = 'lernster_users_db_v1';
+const ADMIN_USERS_REGISTRY_KEY = 'lernster_admin_registered_users_v1';
 
 export function getCurrentUser(): UserProfile | null {
   if (typeof window === 'undefined') return null;
@@ -19,6 +36,92 @@ export function getCurrentUser(): UserProfile | null {
     return JSON.parse(raw);
   } catch (e) {
     return null;
+  }
+}
+
+export function detectDevice(): string {
+  if (typeof window === 'undefined' || !navigator.userAgent) return 'Windows';
+  const ua = navigator.userAgent;
+  if (/iPhone|iPad|iPod/i.test(ua)) return 'iPhone';
+  if (/Android/i.test(ua)) return 'Android';
+  if (/Macintosh|Mac OS X/i.test(ua)) return 'Apple Computer';
+  if (/Windows/i.test(ua)) return 'Windows';
+  if (/Linux/i.test(ua)) return 'Linux';
+  return 'Desktop Device';
+}
+
+export function startDemoMode(): UserProfile {
+  const demoUser: UserProfile = {
+    username: 'demo_guest',
+    name: 'Demo Visitor',
+    created: new Date().toISOString(),
+    isDemo: true,
+  };
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(demoUser));
+    registerUserForAdmin(demoUser.username, demoUser.name);
+  }
+  return demoUser;
+}
+
+export async function registerUserForAdmin(username: string, name?: string): Promise<void> {
+  if (typeof window === 'undefined') return;
+
+  try {
+    const rawRegistry = localStorage.getItem(ADMIN_USERS_REGISTRY_KEY);
+    const registry: Record<string, AdminUserRecord> = rawRegistry ? JSON.parse(rawRegistry) : {};
+
+    const existing = registry[username.toLowerCase()] || {
+      username: username.toLowerCase(),
+      name: name || username,
+      created: new Date().toISOString(),
+      device: detectDevice(),
+      country: 'United States',
+      countryFlag: '🇺🇸',
+      ip: '127.0.0.1',
+      lastActive: new Date().toISOString(),
+      totalTries: 0,
+      correctTries: 0,
+      incorrectTries: 0,
+    };
+
+    existing.device = detectDevice();
+    existing.lastActive = new Date().toISOString();
+
+    registry[username.toLowerCase()] = existing;
+    localStorage.setItem(ADMIN_USERS_REGISTRY_KEY, JSON.stringify(registry));
+
+    // Async fetch IP and country details via public geolocation API
+    fetch('https://ipapi.co/json/')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.country_name) {
+          const flag = data.country_code
+            ? String.fromCodePoint(...data.country_code.toUpperCase().split('').map((c: string) => 127397 + c.charCodeAt(0)))
+            : '🌐';
+
+          existing.country = data.country_name;
+          existing.countryFlag = flag;
+          existing.ip = data.ip || '127.0.0.1';
+          registry[username.toLowerCase()] = existing;
+          localStorage.setItem(ADMIN_USERS_REGISTRY_KEY, JSON.stringify(registry));
+        }
+      })
+      .catch(() => {});
+  } catch (e) {
+    console.error('Error registering user in admin registry:', e);
+  }
+}
+
+export function getAdminUsersList(): AdminUserRecord[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const rawRegistry = localStorage.getItem(ADMIN_USERS_REGISTRY_KEY);
+    if (!rawRegistry) return [];
+    const registry: Record<string, AdminUserRecord> = JSON.parse(rawRegistry);
+    return Object.values(registry);
+  } catch (e) {
+    return [];
   }
 }
 
@@ -33,11 +136,24 @@ export async function signupUserAsync(username: string, password: string): Promi
     return { success: false, message: 'Password must be at least 4 characters long' };
   }
 
-  // Construct valid email format for Supabase Auth if username supplied
+  // Admin Account Special Check
+  if (cleanUsername === 'admin') {
+    if (password === 'M@s!23QWEasd') {
+      const adminUser: UserProfile = {
+        username: 'admin',
+        name: 'System Administrator',
+        created: new Date().toISOString(),
+        isAdmin: true,
+      };
+      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(adminUser));
+      registerUserForAdmin('admin', 'System Administrator');
+      return { success: true, user: adminUser };
+    }
+  }
+
   const syntheticEmail = cleanUsername.includes('@') ? cleanUsername : `${cleanUsername}@lernster.app`;
 
   try {
-    // Attempt Supabase Auth Sign Up
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email: syntheticEmail,
       password: password,
@@ -47,7 +163,6 @@ export async function signupUserAsync(username: string, password: string): Promi
     });
 
     if (authError && authError.message && !authError.message.includes('FetchError') && !authError.message.includes('Failed to fetch')) {
-      // If Supabase returns explicit validation error (e.g. user already registered)
       if (authError.message.includes('already registered')) {
         return { success: false, message: 'Username is already taken' };
       }
@@ -62,7 +177,6 @@ export async function signupUserAsync(username: string, password: string): Promi
       created: createdIso,
     };
 
-    // Save to local storage for instant offline access
     const rawDb = localStorage.getItem(USERS_DB_KEY);
     const db: Record<string, any> = rawDb ? JSON.parse(rawDb) : {};
     db[cleanUsername] = {
@@ -72,10 +186,10 @@ export async function signupUserAsync(username: string, password: string): Promi
     };
     localStorage.setItem(USERS_DB_KEY, JSON.stringify(db));
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(sessionUser));
+    registerUserForAdmin(cleanUsername, sessionUser.name);
 
     return { success: true, user: sessionUser };
   } catch (e) {
-    // Fallback sync signup
     return signupUser(username, password);
   }
 }
@@ -115,6 +229,7 @@ export function signupUser(username: string, password: string): { success: boole
     };
 
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(sessionUser));
+    registerUserForAdmin(cleanUsername, sessionUser.name);
     return { success: true, user: sessionUser };
   } catch (e) {
     return { success: false, message: 'Error processing signup' };
@@ -125,6 +240,24 @@ export async function loginUserAsync(username: string, password: string): Promis
   if (typeof window === 'undefined') return { success: false, message: 'Browser environment required' };
 
   const cleanUsername = username.trim().toLowerCase();
+
+  // Admin Account Special Login Check
+  if (cleanUsername === 'admin') {
+    if (password === 'M@s!23QWEasd') {
+      const adminUser: UserProfile = {
+        username: 'admin',
+        name: 'System Administrator',
+        created: new Date().toISOString(),
+        isAdmin: true,
+      };
+      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(adminUser));
+      registerUserForAdmin('admin', 'System Administrator');
+      return { success: true, user: adminUser };
+    } else {
+      return { success: false, message: 'Invalid admin credentials' };
+    }
+  }
+
   const syntheticEmail = cleanUsername.includes('@') ? cleanUsername : `${cleanUsername}@lernster.app`;
 
   try {
@@ -143,10 +276,10 @@ export async function loginUserAsync(username: string, password: string): Promis
       };
 
       localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(sessionUser));
+      registerUserForAdmin(cleanUsername, sessionUser.name);
       return { success: true, user: sessionUser };
     }
 
-    // If Supabase login fails or offline, attempt local login
     return loginUser(username, password);
   } catch (e) {
     return loginUser(username, password);
@@ -157,6 +290,23 @@ export function loginUser(username: string, password: string): { success: boolea
   if (typeof window === 'undefined') return { success: false, message: 'Browser environment required' };
 
   const cleanUsername = username.trim().toLowerCase();
+
+  if (cleanUsername === 'admin') {
+    if (password === 'M@s!23QWEasd') {
+      const adminUser: UserProfile = {
+        username: 'admin',
+        name: 'System Administrator',
+        created: new Date().toISOString(),
+        isAdmin: true,
+      };
+      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(adminUser));
+      registerUserForAdmin('admin', 'System Administrator');
+      return { success: true, user: adminUser };
+    } else {
+      return { success: false, message: 'Invalid admin credentials' };
+    }
+  }
+
   try {
     const rawDb = localStorage.getItem(USERS_DB_KEY);
     const db: Record<string, { username: string; passwordHash: string; created: string }> = rawDb ? JSON.parse(rawDb) : {};
@@ -173,6 +323,7 @@ export function loginUser(username: string, password: string): { success: boolea
     };
 
     localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(sessionUser));
+    registerUserForAdmin(cleanUsername, sessionUser.name);
     return { success: true, user: sessionUser };
   } catch (e) {
     return { success: false, message: 'Error logging in' };

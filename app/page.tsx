@@ -17,7 +17,7 @@ import {
   setCachedImage,
 } from '@/lib/storage';
 import { getNextQuestions, preloadUpcomingImages } from '@/lib/quiz';
-import { getCurrentUser, UserProfile } from '@/lib/auth';
+import { getCurrentUser, logoutUser, UserProfile } from '@/lib/auth';
 import { calculateMascotExpression, MascotExpression } from '@/lib/mascot';
 import { checkMilestoneCelebration } from '@/lib/celebration';
 import { RefreshCw } from 'lucide-react';
@@ -38,6 +38,10 @@ export default function LearnPage() {
   const [consecutiveIncorrect, setConsecutiveIncorrect] = useState(0);
   const [lastAnswerCorrect, setLastAnswerCorrect] = useState<boolean | null>(null);
   const [timeSpentSeconds, setTimeSpentSeconds] = useState(0);
+
+  // Demo mode question counter & notice
+  const [demoQuestionsCount, setDemoQuestionsCount] = useState(0);
+  const [demoNotice, setDemoNotice] = useState<string | null>(null);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -159,6 +163,19 @@ export default function LearnPage() {
   );
 
   const handleNext = useCallback(() => {
+    // Check Demo Mode 10 questions limit
+    if (currentUser?.isDemo) {
+      const nextCount = demoQuestionsCount + 1;
+      if (nextCount >= 10) {
+        logoutUser();
+        setCurrentUser(null);
+        setDemoNotice('Demo session finished (10 questions completed)! Please log in or sign up to save your progress.');
+        setDemoQuestionsCount(0);
+        return;
+      }
+      setDemoQuestionsCount(nextCount);
+    }
+
     setLastAnswerCorrect(null);
     setTimeSpentSeconds(0);
     const nextIdx = currentIndex + 1;
@@ -171,13 +188,21 @@ export default function LearnPage() {
       setCurrentIndex(0);
       preloadUpcomingImages(newQueue);
     }
-  }, [currentIndex, queue.length, allWords, progress, settings]);
+  }, [currentIndex, queue.length, allWords, progress, settings, currentUser, demoQuestionsCount]);
 
   if (!authChecked) return null;
 
   // Show Login Screen if user is not authenticated
   if (!currentUser) {
-    return <LoginScreen onSuccess={(user) => setCurrentUser(user)} />;
+    return (
+      <LoginScreen
+        noticeMessage={demoNotice}
+        onSuccess={(user) => {
+          setDemoNotice(null);
+          setCurrentUser(user);
+        }}
+      />
+    );
   }
 
   if (isLoading || queue.length === 0) {

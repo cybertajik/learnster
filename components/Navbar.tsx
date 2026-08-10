@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BookOpen, BarChart2, Settings as SettingsIcon, LogOut } from 'lucide-react';
+import { BookOpen, BarChart2, Settings as SettingsIcon, LogOut, ShieldCheck } from 'lucide-react';
 import { UserProgress, UserSettings } from '@/types/vocabulary';
 import { UserProfile, logoutUser } from '@/lib/auth';
 import { MascotExpression, getMascotImagePath } from '@/lib/mascot';
@@ -45,6 +45,10 @@ export const Navbar: React.FC<NavbarProps> = ({
     { href: '/progress', label: 'Progress', icon: BarChart2 },
     { href: '/settings', label: 'Settings', icon: SettingsIcon },
   ];
+
+  if (user?.isAdmin) {
+    navLinks.push({ href: '/admin', label: 'Admin', icon: ShieldCheck });
+  }
 
   const mascotSrc = getMascotImagePath(mascotExpression);
 

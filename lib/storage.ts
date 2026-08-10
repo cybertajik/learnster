@@ -84,6 +84,61 @@ export function saveUserProgress(progress: UserProgress, username?: string): voi
   }
 }
 
+const ADMIN_ANALYTICS_KEY = 'lernster_admin_analytics_v1';
+
+export interface AdminAnalyticsData {
+  totalTries: number;
+  correctTries: number;
+  incorrectTries: number;
+  practicedWordIds: Record<number, boolean>;
+}
+
+export function getAdminGlobalAnalytics(): AdminAnalyticsData {
+  if (typeof window === 'undefined') return { totalTries: 0, correctTries: 0, incorrectTries: 0, practicedWordIds: {} };
+  try {
+    const raw = localStorage.getItem(ADMIN_ANALYTICS_KEY);
+    if (!raw) return { totalTries: 0, correctTries: 0, incorrectTries: 0, practicedWordIds: {} };
+    return JSON.parse(raw);
+  } catch (e) {
+    return { totalTries: 0, correctTries: 0, incorrectTries: 0, practicedWordIds: {} };
+  }
+}
+
+export function recordGlobalAdminStats(wordId: number, isCorrect: boolean, username?: string): void {
+  if (typeof window === 'undefined') return;
+
+  try {
+    const current = getAdminGlobalAnalytics();
+    const updated: AdminAnalyticsData = {
+      totalTries: current.totalTries + 1,
+      correctTries: current.correctTries + (isCorrect ? 1 : 0),
+      incorrectTries: current.incorrectTries + (isCorrect ? 0 : 1),
+      practicedWordIds: {
+        ...current.practicedWordIds,
+        [wordId]: true,
+      },
+    };
+    localStorage.setItem(ADMIN_ANALYTICS_KEY, JSON.stringify(updated));
+
+    // Update individual user record in admin user registry
+    const registryKey = 'lernster_admin_registered_users_v1';
+    const rawRegistry = localStorage.getItem(registryKey);
+    if (rawRegistry && username) {
+      const registry = JSON.parse(rawRegistry);
+      const cleanU = username.trim().toLowerCase();
+      if (registry[cleanU]) {
+        registry[cleanU].totalTries = (registry[cleanU].totalTries || 0) + 1;
+        if (isCorrect) registry[cleanU].correctTries = (registry[cleanU].correctTries || 0) + 1;
+        else registry[cleanU].incorrectTries = (registry[cleanU].incorrectTries || 0) + 1;
+        registry[cleanU].lastActive = new Date().toISOString();
+        localStorage.setItem(registryKey, JSON.stringify(registry));
+      }
+    }
+  } catch (e) {
+    console.error('Error recording global admin stats:', e);
+  }
+}
+
 /**
  * Record a question attempt in progress state for the current active user
  */
@@ -122,6 +177,7 @@ export function recordAnswerAttempt(
   };
 
   saveUserProgress(updatedProgress, username);
+  recordGlobalAdminStats(wordId, isCorrect, username);
   return updatedProgress;
 }
 
